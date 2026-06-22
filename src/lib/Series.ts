@@ -23,6 +23,7 @@ export interface Series {
     title: string,
     status?: SeriesStatus,
     rating?: number,
+    coverImage?: string,
 
     userStatus: UserStatus,
     userRating: number,

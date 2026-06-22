@@ -27,6 +27,7 @@
 		"vite": "^8.0.16"
 	},
 	"dependencies": {
+		"bottleneck": "^2.19.5",
 		"fast-xml-parser": "^5.9.3"
 	}
 }

@@ -1,4 +1,5 @@
-import { UserStatus, type Series } from "$lib/Series";
+import { SeriesStatus, UserStatus, type Series } from "$lib/Series";
+import { sendQuery } from "$lib/clients/AniList";
 import type { Loader } from "./loader.ts";
 
 import { XMLParser } from "fast-xml-parser";
@@ -42,10 +43,75 @@ export class MALLoader implements Loader {
             list.push(series);
         }
 
-        return list;
+        return await fillFromAnilist(list);
+    }
+}
+
+async function fillFromAnilist(seriesList: Series[]): Promise<Series[]> {
+    const query = `
+        query Query($idMalIn: [Int], $type: MediaType) {
+          Page {
+            media(idMal_in: $idMalIn, type: $type) {
+              id
+              status
+              meanScore
+              coverImage {
+                large
+              }
+              idMal
+              title {
+                english
+                romaji
+              }
+            }
+          }
+        }
+    `;
+
+    const allMalIds = seriesList.map(s => s.malId);
+    const CHUNK_SIZE = 50;
+    const anilistMedia: any[] = [];
+
+    for (let i = 0; i < allMalIds.length; i += CHUNK_SIZE) {
+        const chunk = allMalIds.slice(i, i + CHUNK_SIZE);
+
+        const variables = {
+            idMalIn: chunk,
+            type: "ANIME",
+        };
+
+        try {
+            const response = await sendQuery(query, JSON.stringify(variables));
+
+            const media = response?.data?.Page?.media || [];
+            anilistMedia.push(...media);
+        } catch (err: any) {
+            throw new Error(`Failed to fetch chunk starting at index ${i}: ${err}`);
+        }
     }
 
-    convertToAnilist?(): boolean {
-        throw new Error("Method not implemented.");
-    }
+    const statusMap: Record<string, SeriesStatus> = {
+        "FINISHED": SeriesStatus.Completed,
+        "RELEASING": SeriesStatus.Airing,
+        "NOT_YET_RELEASED": SeriesStatus.ToBeAired,
+        "CANCELLED": SeriesStatus.Cancelled,
+        "HIATUS": SeriesStatus.Hiatus,
+    };
+
+    const updatedSeriesList: Series[] = seriesList.map(series => {
+        const potentialMatches = anilistMedia.filter(m => Number(m.idMal) === Number(series.malId));
+
+        if (potentialMatches.length === 0) return series;
+        if (potentialMatches.length > 1) throw new Error(`Duplicated entries for MAL ID: ${series.malId}`); // NOTE: should be like unreachable
+
+        return {
+            ...series,
+            anilistId: potentialMatches[0].id,
+            status: statusMap[potentialMatches[0].status],
+            rating: potentialMatches[0].meanScore ?? undefined,
+            coverImage: potentialMatches[0].coverImage?.large ?? undefined,
+        };
+    });
+
+    return updatedSeriesList;
 }

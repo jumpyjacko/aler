@@ -14,6 +14,8 @@
             alert(`Failed to load list: ${err}`);
         }
     }
+
+    $inspect(result);
 </script>
 
 <div class="flex flex-col items-center justify-center mt-50 gap-4">
