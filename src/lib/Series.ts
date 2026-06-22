@@ -1,4 +1,4 @@
-enum SeriesStatus { // TODO: consider generalising for other media?
+export enum SeriesStatus { // TODO: consider generalising for other media?
     Airing,
     Completed,
     ToBeAired,
@@ -6,7 +6,7 @@ enum SeriesStatus { // TODO: consider generalising for other media?
     Hiatus,
 };
 
-enum UserStatus { // TODO: consider generalising for other media?
+export enum UserStatus { // TODO: consider generalising for other media?
     Watching,
     PlanToWatch,
     Completed,
@@ -17,12 +17,12 @@ enum UserStatus { // TODO: consider generalising for other media?
 
 
 export interface Series {
-    malId?: string,
-    anilistId: string,
+    malId?: number,
+    anilistId?: number,
 
     title: string,
-    status: SeriesStatus,
-    rating: number,
+    status?: SeriesStatus,
+    rating?: number,
 
     userStatus: UserStatus,
     userRating: number,
