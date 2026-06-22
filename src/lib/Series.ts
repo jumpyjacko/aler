@@ -17,6 +17,7 @@ export enum UserStatus { // TODO: consider generalising for other media?
 
 
 export interface Series {
+    id: string, // internal storage id
     malId?: number,
     anilistId?: number,
 

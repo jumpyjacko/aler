@@ -34,6 +34,7 @@ export class MALLoader implements Loader {
             if (status === undefined) throw new Error(`Unknown or missing user status: ${raw_series.my_status}`);
 
             const series: Series = {
+                id: crypto.randomUUID(),
                 malId: +raw_series.series_animedb_id,
                 title: raw_series.series_title,
                 userStatus: status,
