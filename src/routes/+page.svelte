@@ -21,12 +21,12 @@
 </script>
 
 <div class="flex flex-col items-center justify-center mt-50 gap-4">
-    <h1 class="text-xl">aler</h1>
+    <h1 class="text-2xl">Anime List Elo Ranker (or Rebalancer)</h1>
 
     <label
         class="
         cursor-pointer inline-flex items-center justify-center px-4 py-2
-        bg-blue-400 text-white font-medium rounded-lg shadow-sm
+        bg-blue-400 text-white font-medium rounded-full shadow-sm
         transition-colors duration-200"
     >
         <span>Load list</span>
