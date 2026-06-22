@@ -94,7 +94,7 @@ async function fillFromAnilist(seriesList: Series[]): Promise<Series[]> {
     const statusMap: Record<string, SeriesStatus> = {
         "FINISHED": SeriesStatus.Completed,
         "RELEASING": SeriesStatus.Airing,
-        "NOT_YET_RELEASED": SeriesStatus.ToBeAired,
+        "NOT_YET_RELEASED": SeriesStatus.ToBeReleased,
         "CANCELLED": SeriesStatus.Cancelled,
         "HIATUS": SeriesStatus.Hiatus,
     };
