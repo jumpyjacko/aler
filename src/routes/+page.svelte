@@ -1,6 +1,8 @@
 <script lang="ts">
     import { getParsedData } from "$lib/loaders/loader";
-    import type { Series } from "$lib/Series";
+    import { UserStatus, type Series } from "$lib/Series";
+
+    import SeriesCard from "./seriesCard.svelte";
 
     let files: FileList | null = $state(null);
     let result: Series[] | null = $state(null);
@@ -36,3 +38,13 @@
         />
     </label>
 </div>
+
+{#if result}
+    <div class="flex justify-center w-full">
+        <div class="flex flex-wrap justify-center max-w-full">
+            {#each result as series}
+                <SeriesCard {...series} />
+            {/each}
+        </div>
+    </div>
+{/if}
