@@ -1,18 +1,18 @@
 export enum SeriesStatus { // TODO: consider generalising for other media?
-    Airing,
-    Completed,
-    ToBeAired,
-    Cancelled,
-    Hiatus,
+    Airing = "Airing",
+    Completed = "Completed",
+    ToBeReleased = "To be Released",
+    Cancelled = "Cancelled",
+    Hiatus = "Hiatus",
 };
 
 export enum UserStatus { // TODO: consider generalising for other media?
-    Watching,
-    PlanToWatch,
-    Completed,
-    Dropped,
-    Paused,
-    Rewatching,
+    Watching = "Watching",
+    PlanToWatch = "Plan to Watch",
+    Completed = "Completed",
+    Dropped = "Dropped",
+    Paused = "On-Hold",
+    Rewatching = "Re-watching",
 };
 
 
