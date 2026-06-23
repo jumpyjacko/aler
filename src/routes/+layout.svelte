@@ -7,7 +7,7 @@
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
-<nav class="sticky left-0 top-0 w-full flex flex-row px-8 py-2 justify-between">
+<nav class="sticky left-0 top-0 w-full flex flex-row px-8 py-2 justify-between bg-white">
     <a href="/">aler</a>
 
     <div class="flex flex-row gap-4">

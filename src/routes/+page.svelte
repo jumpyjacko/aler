@@ -1,19 +1,17 @@
 <script lang="ts">
     import { getList } from "$lib/loaders/loader";
-    import { UserStatus, type Series } from "$lib/Series";
+    import { type Series } from "$lib/Series";
     import { getAllItems } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
-
-    import SeriesCard from "./seriesCard.svelte";
 
     let files: FileList | null = $state(null);
     let result: Series[] | null = $state(null);
 
-    onMount(async ()  => {
+    onMount(async () => {
         const db: Series[] = await getAllItems("list");
-        if (db.length === 0)  return;
+        if (db.length === 0) return;
         result = db;
-    })
+    });
 
     async function onFileSelected() {
         if (!files || files.length === 0) return;
@@ -46,13 +44,3 @@
         />
     </label>
 </div>
-
-{#if result}
-    <div class="flex justify-center w-full">
-        <div class="flex flex-wrap justify-center max-w-full">
-            {#each result as series}
-                <SeriesCard {...series} />
-            {/each}
-        </div>
-    </div>
-{/if}
