@@ -39,6 +39,9 @@ export class MALLoader implements Loader {
                 title: raw_series.series_title,
                 userStatus: status,
                 userRating: +raw_series.my_score,
+
+                mmrRating: 1500,
+                ratingDeviation: 350,
             }
 
             list.push(series);

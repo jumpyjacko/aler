@@ -1,3 +1,5 @@
+import type { Candidate } from "./rating";
+
 export enum SeriesStatus { // TODO: consider generalising for other media?
     Airing = "Airing",
     Completed = "Completed",
@@ -16,7 +18,7 @@ export enum UserStatus { // TODO: consider generalising for other media?
 };
 
 
-export interface Series {
+export interface Series extends Candidate {
     id: number, // internal storage id
     malId?: number,
     anilistId?: number,
