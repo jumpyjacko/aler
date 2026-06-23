@@ -5,15 +5,13 @@
 
     import SeriesListEntry from "./seriesListEntry.svelte";
 
-    let result: Series[] | null = $state(null);
+    let seriesList: Series[] | null = $state(null);
 
     onMount(async () => {
         const db: Series[] = await getAllItems("list");
         if (db.length === 0) return;
-        result = db;
+        seriesList = db;
     });
-
-    $inspect(result);
 </script>
 
 <div>
@@ -25,9 +23,9 @@
     ranking, their current user rating and their recommended rating.
 </div>
 
-{#if result}
+{#if seriesList}
     <div class="flex flex-col w-full">
-        {#each result as series}
+        {#each seriesList as series}
             <SeriesListEntry {...series} />
         {/each}
     </div>
