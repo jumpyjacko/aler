@@ -1,6 +1,6 @@
 import { SeriesStatus, UserStatus, type Series } from "$lib/Series";
 import { sendQuery } from "$lib/clients/AniList";
-import type { Loader } from "./loader.ts";
+import type { Loader } from ".";
 
 import { XMLParser } from "fast-xml-parser";
 

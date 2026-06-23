@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getList } from "$lib/loaders/loader";
+    import { getList } from "$lib/loaders";
     import { type Series } from "$lib/Series";
     import { getAllItems } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
