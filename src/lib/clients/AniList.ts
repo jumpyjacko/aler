@@ -38,7 +38,7 @@ export async function sendQuery(query: string, variables: string): Promise<any> 
     }
 
     function handleData(data: any) {
-        console.log(limiter.queued(), limiter.currentReservoir()); // DEBUG
+        // console.log(limiter.queued(), limiter.currentReservoir()); // DEBUG
         return data;
     }
 }
