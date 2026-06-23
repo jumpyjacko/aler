@@ -34,7 +34,7 @@ export class MALLoader implements Loader {
             if (status === undefined) throw new Error(`Unknown or missing user status: ${raw_series.my_status}`);
 
             const series: Series = {
-                id: crypto.randomUUID(),
+                id: +raw_series.series_animedb_id,
                 malId: +raw_series.series_animedb_id,
                 title: raw_series.series_title,
                 userStatus: status,
@@ -111,6 +111,7 @@ async function fillFromAnilist(seriesList: Series[]): Promise<Series[]> {
             status: statusMap[potentialMatches[0].status],
             rating: potentialMatches[0].meanScore ?? undefined,
             coverImage: potentialMatches[0].coverImage?.large ?? undefined,
+            id: potentialMatches[0].id, // internal storage id
         };
     });
 
