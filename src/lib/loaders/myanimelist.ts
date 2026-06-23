@@ -31,6 +31,8 @@ export class MALLoader implements Loader {
         for (const raw_series of raw_list) {
             let status: UserStatus = statusMap[raw_series.my_status];
 
+            if (status === UserStatus.PlanToWatch) continue;
+
             if (status === undefined) throw new Error(`Unknown or missing user status: ${raw_series.my_status}`);
 
             const series: Series = {
