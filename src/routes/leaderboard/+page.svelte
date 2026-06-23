@@ -10,7 +10,7 @@
     onMount(async () => {
         const db: Series[] = await getAllItems("list");
         if (db.length === 0) return;
-        seriesList = db;
+        seriesList = db.sort((a, b) => b.mmrRating - a.mmrRating);
     });
 </script>
 

@@ -1,10 +1,10 @@
 <script lang="ts">
-    let { title, coverImage, status, rating, userStatus, userRating } =
+    let { title, coverImage, status, rating, userStatus, userRating, mmrRating } =
         $props();
 </script>
 
 <div
-    class="grid grid-cols-[3rem_1fr] md:grid-cols-[3rem_8fr_8rem_6rem_6rem] gap-x-4 gap-y-1 p-4 min-h-24 md:h-24 w-full items-center border-b border-gray-100"
+    class="grid grid-cols-[3rem_1fr] md:grid-cols-[3rem_8fr_8rem_6rem_6rem_8rem] gap-x-4 gap-y-1 p-4 min-h-24 md:h-24 w-full items-center border-b border-gray-100"
 >
     <img
         src={coverImage}
@@ -24,5 +24,6 @@
         <div class="truncate">{userStatus}</div>
         <div class="truncate">Global: {+rating / 10}</div>
         <div class="truncate">Yours: {userRating}</div>
+        <div class="truncate">Rating: {mmrRating}</div>
     </div>
 </div>
