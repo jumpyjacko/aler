@@ -19,7 +19,7 @@
         if (db.length === 0) return;
         seriesList = db;
 
-        [series1, series2] = sampleTwoUnique(seriesList);
+        [series1, series2] = pickTwo(seriesList);
     });
 
     async function handleVote(winner: Series, loser: Series): Promise<void> {
@@ -28,23 +28,30 @@
         await updateEntry(loser, p2);
 
         seriesList = await getAllItems("list"); // TODO: probably not a good idea
-        [series1, series2] = sampleTwoUnique(seriesList!);
+        [series1, series2] = pickTwo(seriesList!);
     }
 
     async function handleDraw(): Promise<void> {
-        const [p1, p2] = ratingSystem.update(series1!, series2!, MatchOutcome.draw);
+        const [p1, p2] = ratingSystem.update(
+            series1!,
+            series2!,
+            MatchOutcome.draw,
+        );
         await updateEntry(series1!, p1);
         await updateEntry(series2!, p2);
 
         seriesList = await getAllItems("list"); // TODO: probably not a good idea
-        [series1, series2] = sampleTwoUnique(seriesList!);
+        [series1, series2] = pickTwo(seriesList!);
     }
 
     function handleSkip(): void {
-        [series1, series2] = sampleTwoUnique(seriesList!);
+        [series1, series2] = pickTwo(seriesList!);
     }
 
-    async function updateEntry(series: Series, candidate: Candidate): Promise<void> {
+    async function updateEntry(
+        series: Series,
+        candidate: Candidate,
+    ): Promise<void> {
         if (series) {
             series = {
                 ...series,
@@ -55,7 +62,7 @@
         await putItem("list", series);
     }
 
-    function sampleTwoUnique<T>(list: T[]): [T, T] {
+    function pickTwo(list: Series[]): [Series, Series] {
         if (list.length < 2) {
             throw new Error(
                 "The list must contain at least 2 items to sample unique values.",
@@ -63,12 +70,22 @@
         }
 
         const index1 = Math.floor(Math.random() * list.length);
-        let index2 = Math.floor(Math.random() * list.length);
-        while (index2 === index1) {
-            index2 = Math.floor(Math.random() * list.length);
+        const p1 = list[index1];
+        const upperBound = p1.mmrRating + 2 * p1.ratingDeviation;
+        const lowerBound = p1.mmrRating - 2 * p1.ratingDeviation;
+
+        const matchmakingPool = list
+            .filter((s) => s.mmrRating >= lowerBound)
+            .filter((s) => s.mmrRating <= upperBound);
+
+        let index2 = Math.floor(Math.random() * matchmakingPool.length);
+        while (matchmakingPool[index2].id === p1.id) {
+            index2 = Math.floor(Math.random() * matchmakingPool.length);
         }
 
-        return [list[index1], list[index2]];
+        const p2 = list[index2];
+
+        return [p1, p2];
     }
 </script>
 
@@ -89,7 +106,14 @@
     </div>
 
     <div class="flex flex-row gap-4 w-full justify-center mt-10">
-        <button onclick={handleDraw} class="px-4 py-2 rounded-full bg-blue-500 text-white">Draw</button>
-        <button onclick={handleSkip} class="px-4 py-2 rounded-full bg-blue-200 text-blue-800">Skip</button>
+        <button
+            onclick={handleDraw}
+            class="px-4 py-2 rounded-full bg-blue-500 text-white">Draw</button
+        >
+        <button
+            onclick={handleSkip}
+            class="px-4 py-2 rounded-full bg-blue-200 text-blue-800"
+            >Skip</button
+        >
     </div>
 {/if}
