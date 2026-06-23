@@ -22,7 +22,7 @@
         [series1, series2] = sampleTwoUnique(seriesList);
     });
 
-    async function handleVote(winner: Series, loser: Series): Promise<Void> {
+    async function handleVote(winner: Series, loser: Series): Promise<void> {
         const [p1, p2] = ratingSystem.update(winner, loser, MatchOutcome.win);
         await updateEntry(winner, p1);
         await updateEntry(loser, p2);
@@ -31,12 +31,16 @@
         [series1, series2] = sampleTwoUnique(seriesList!);
     }
 
-    async function handleDraw(winner: Series, loser: Series): Promise<void> {
-        const [p1, p2] = ratingSystem.update(winner, loser, MatchOutcome.win);
-        await updateEntry(winner, p1);
-        await updateEntry(loser, p2);
+    async function handleDraw(): Promise<void> {
+        const [p1, p2] = ratingSystem.update(series1!, series2!, MatchOutcome.draw);
+        await updateEntry(series1!, p1);
+        await updateEntry(series2!, p2);
 
         seriesList = await getAllItems("list"); // TODO: probably not a good idea
+        [series1, series2] = sampleTwoUnique(seriesList!);
+    }
+
+    function handleSkip(): void {
         [series1, series2] = sampleTwoUnique(seriesList!);
     }
 
@@ -82,5 +86,10 @@
         >
             <SeriesCandidate {...series2} />
         </button>
+    </div>
+
+    <div class="flex flex-row gap-4 w-full justify-center mt-10">
+        <button onclick={handleDraw} class="px-4 py-2 rounded-full bg-blue-500 text-white">Draw</button>
+        <button onclick={handleSkip} class="px-4 py-2 rounded-full bg-blue-200 text-blue-800">Skip</button>
     </div>
 {/if}
