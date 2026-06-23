@@ -1,17 +1,25 @@
 <script lang="ts">
-    import { getParsedData } from "$lib/loaders/loader";
+    import { getList } from "$lib/loaders/loader";
     import { UserStatus, type Series } from "$lib/Series";
+    import { getAllItems } from "$lib/storage/IndexedDB";
+    import { onMount } from "svelte";
 
     import SeriesCard from "./seriesCard.svelte";
 
     let files: FileList | null = $state(null);
     let result: Series[] | null = $state(null);
 
+    onMount(async ()  => {
+        const db: Series[] = await getAllItems("list");
+        if (db.length === 0)  return;
+        result = db;
+    })
+
     async function onFileSelected() {
         if (!files || files.length === 0) return;
 
         try {
-            result = await getParsedData(files[0]);
+            result = await getList(files[0]);
         } catch (err: any) {
             alert(`Failed to load list: ${err}`);
         }

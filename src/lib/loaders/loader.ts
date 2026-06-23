@@ -1,4 +1,5 @@
 import type { Series } from "$lib/Series";
+import { getAllItems, putItem } from "$lib/storage/IndexedDB";
 import { MALLoader } from "./myanimelist";
 
 export interface Loader {
@@ -13,7 +14,7 @@ const registeredLoaders: Loader[] = [
     new MALLoader,
 ];
 
-export async function getParsedData(file: File): Promise<Series[]> {
+export async function getList(file: File): Promise<Series[]> {
     const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
 
     const matchingLoader = registeredLoaders.find(
@@ -22,5 +23,11 @@ export async function getParsedData(file: File): Promise<Series[]> {
 
     if (!matchingLoader) throw new Error(`No registered loader for filetype: ${extension}`);
 
-    return await matchingLoader.load(file);
+    let seriesList = await matchingLoader.load(file);
+
+    for (const series of seriesList) {
+        await putItem("list", series);
+    }
+
+    return getAllItems("list");
 }
