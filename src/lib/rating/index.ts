@@ -13,5 +13,5 @@ export interface Candidate {
 }
 
 export interface RatingSystem {
-    update(s1: Series, s2: Series, outcome: MatchOutcome): void;
+    update(s1: Series, s2: Series, outcome: MatchOutcome): [Candidate, Candidate];
 }

@@ -1,16 +1,16 @@
 <script lang="ts">
     import { type Series } from "$lib/Series";
-    import { MatchOutcome } from "$lib/rating";
+    import { MatchOutcome, type Candidate } from "$lib/rating";
     import { Glicko } from "$lib/rating/glicko";
-    import { getAllItems } from "$lib/storage/IndexedDB";
+    import { getAllItems, putItem } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
 
     import SeriesCandidate from "./seriesCandidate.svelte";
 
-    let seriesList: Series[] | null = $state(null);
+    let seriesList: Series[] | null = null;
 
-    let candidate1: Series | null = $state(null);
-    let candidate2: Series | null = $state(null);
+    let series1: Series | null = $state(null);
+    let series2: Series | null = $state(null);
 
     const ratingSystem = new Glicko(); // TODO: make this an option that a user could switch with like Elo or Glicko-2
 
@@ -19,17 +19,36 @@
         if (db.length === 0) return;
         seriesList = db;
 
-        [candidate1, candidate2] = sampleTwoUnique(seriesList);
+        [series1, series2] = sampleTwoUnique(seriesList);
     });
 
-    function handleVote(winner: Series, loser: Series) {
-        ratingSystem.update(winner, loser, MatchOutcome.win);
-        [candidate1, candidate2] = sampleTwoUnique(seriesList!);
+    async function handleVote(winner: Series, loser: Series): Promise<Void> {
+        const [p1, p2] = ratingSystem.update(winner, loser, MatchOutcome.win);
+        await updateEntry(winner, p1);
+        await updateEntry(loser, p2);
+
+        seriesList = await getAllItems("list"); // TODO: probably not a good idea
+        [series1, series2] = sampleTwoUnique(seriesList!);
     }
 
-    function handleDraw(winner: Series, loser: Series) {
-        ratingSystem.update(winner, loser, MatchOutcome.draw);
-        [candidate1, candidate2] = sampleTwoUnique(seriesList!);
+    async function handleDraw(winner: Series, loser: Series): Promise<void> {
+        const [p1, p2] = ratingSystem.update(winner, loser, MatchOutcome.win);
+        await updateEntry(winner, p1);
+        await updateEntry(loser, p2);
+
+        seriesList = await getAllItems("list"); // TODO: probably not a good idea
+        [series1, series2] = sampleTwoUnique(seriesList!);
+    }
+
+    async function updateEntry(series: Series, candidate: Candidate): Promise<void> {
+        if (series) {
+            series = {
+                ...series,
+                ...candidate,
+            };
+        }
+
+        await putItem("list", series);
     }
 
     function sampleTwoUnique<T>(list: T[]): [T, T] {
@@ -49,19 +68,19 @@
     }
 </script>
 
-{#if candidate1 && candidate2}
+{#if series1 && series2}
     <div class="flex flex-row justify-around w-full divide-x divide-gray-300">
         <button
-            onclick={() => handleVote(candidate1!, candidate2!)}
+            onclick={() => handleVote(series1!, series2!)}
             class="w-full flex flex-col justify-center items-center"
         >
-            <SeriesCandidate {...candidate1} />
+            <SeriesCandidate {...series1} />
         </button>
         <button
-            onclick={() => handleVote(candidate2!, candidate1!)}
+            onclick={() => handleVote(series2!, series1!)}
             class="w-full flex flex-col justify-center items-center"
         >
-            <SeriesCandidate {...candidate2} />
+            <SeriesCandidate {...series2} />
         </button>
     </div>
 {/if}

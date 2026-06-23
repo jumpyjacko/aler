@@ -9,7 +9,7 @@ export class Glicko implements RatingSystem {
         this.minRatingDeviation = minRd;
     }
 
-    update(p1: Candidate, p2: Candidate, outcome: MatchOutcome): void {
+    update(p1: Candidate, p2: Candidate, outcome: MatchOutcome): [Candidate, Candidate] {
         const g_rd2 = g(p2.ratingDeviation);
         const e1 = E(g_rd2, p1.mmrRating, p2.mmrRating);
         const dSquared1 = 1 / (q * q * g_rd2 * g_rd2 * e1 * (1 - e1));
@@ -28,6 +28,8 @@ export class Glicko implements RatingSystem {
         p1.ratingDeviation = Math.max(this.minRatingDeviation, Math.round(newRd1 * 100) / 100);
         p2.mmrRating = Math.round(newR2 * 100) / 100;
         p2.ratingDeviation = Math.max(this.minRatingDeviation, Math.round(newRd2 * 100) / 100);
+
+        return [p1, p2];
     }
 }
 
