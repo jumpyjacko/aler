@@ -68,17 +68,22 @@
         {/if}
     </div>
 
-    <div class="flex flex-row mt-3 md:mt-0 gap-4 items-center">
-        <a href={resolve("/")} class="text-text-dim hover:text-text">Home</a>
-        <a href={resolve("/rating")} class="text-text-dim hover:text-text"
-            >Rating</a
-        >
-        <a href={resolve("/leaderboard")} class="text-text-dim hover:text-text"
-            >Leaderboard</a
-        >
-        <a href={resolve("/statistics")} class="text-text-dim hover:text-text"
-            >Stats</a
-        >
+    <div class="flex flex-row mt-3 md:mt-0 items-center justify-between w-full md:w-auto md:gap-4">
+        <div class="flex flex-row gap-4">
+            <a href={resolve("/")} class="text-text-dim hover:text-text">Home</a
+            >
+            <a href={resolve("/rating")} class="text-text-dim hover:text-text"
+                >Rating</a
+            >
+            <a
+                href={resolve("/leaderboard")}
+                class="text-text-dim hover:text-text">Leaderboard</a
+            >
+            <a
+                href={resolve("/statistics")}
+                class="text-text-dim hover:text-text">Stats</a
+            >
+        </div>
 
         <DarkmodeToggle />
     </div>
