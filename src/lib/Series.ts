@@ -1,7 +1,7 @@
 import type { Candidate } from "./rating";
 
-export enum SeriesStatus { // TODO: consider generalising for other media?
-    Airing = "Airing",
+export enum SeriesStatus {
+    Releasing = "Releasing",
     Completed = "Completed",
     ToBeReleased = "To be Released",
     Cancelled = "Cancelled",
@@ -10,11 +10,12 @@ export enum SeriesStatus { // TODO: consider generalising for other media?
 
 export enum UserStatus { // TODO: consider generalising for other media?
     Watching = "Watching",
+    Reading = "Reading",
     PlanToWatch = "Plan to Watch",
+    PlanToRead = "Plan to Read",
     Completed = "Completed",
     Dropped = "Dropped",
     Paused = "On-Hold",
-    Rewatching = "Re-watching",
 };
 
 
@@ -30,4 +31,5 @@ export interface Series extends Candidate {
 
     userStatus: UserStatus,
     userRating: number,
+    readChapters?: number,
 }

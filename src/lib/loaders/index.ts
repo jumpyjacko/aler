@@ -3,8 +3,8 @@ import { getAllItems, putItem } from "$lib/storage/IndexedDB";
 import { MALLoader } from "./myanimelist";
 
 export enum ListType {
-    Manga,
-    Anime,
+    Manga = "MANGA",
+    Anime = "ANIME",
 }
 
 export interface Loader {
