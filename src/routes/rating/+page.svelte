@@ -7,12 +7,14 @@
 
     import SeriesCandidate from "./seriesCandidate.svelte";
 
-    let seriesList: Series[] | null = null;
+    let seriesList: Series[] | null = $state(null);
 
     let series1: Series | null = $state(null);
     let series2: Series | null = $state(null);
 
     const ratingSystem = new Glicko(); // TODO: make this an option that a user could switch with like Elo or Glicko-2
+
+    let medianRD: number = $state(350);
 
     onMount(async () => {
         const db: Series[] = await getAllItems("list");
@@ -91,10 +93,26 @@
             index2 = Math.floor(Math.random() * matchmakingPool.length);
         }
 
-        const p2 = list[index2];
+        const p2 = matchmakingPool[index2];
 
         return [p1, p2];
     }
+
+    $effect(() => {
+        if (!seriesList) return;
+
+        const rds = seriesList
+            .map((c) => c.ratingDeviation)
+            .sort((a, b) => a - b);
+
+        const mid = Math.floor(rds.length / 2);
+
+        if (rds.length % 2 !== 0) {
+            medianRD = rds[mid];
+        } else {
+            medianRD = (rds[mid - 1] + rds[mid - 1]) / 2;
+        }
+    });
 </script>
 
 {#if series1 && series2}
@@ -124,3 +142,7 @@
         >
     </div>
 {/if}
+
+<footer class="text-sm text-gray-600 fixed bottom-0 p-2">
+Median rating deviation: {medianRD}, aiming for around &lt;100
+</footer>
