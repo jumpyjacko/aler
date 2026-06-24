@@ -20,7 +20,8 @@
     <img
         src={coverImage}
         alt={title}
-        class="rounded-md shadow-sm h-60 w-40 md:h-90 md:w-60 object-cover"
+        class="rounded-md shadow-sm h-60 w-40 md:h-90 md:w-60 object-cover select-none"
+        draggable="false"
     />
 
     <div class="w-60 md:w-[90%] p-4 text-left md:text-center">
