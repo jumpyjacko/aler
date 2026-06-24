@@ -98,17 +98,16 @@
 </script>
 
 {#if series1 && series2}
-    <div class="flex flex-row justify-around w-full divide-x divide-gray-300">
-        <button
-            onclick={() => handleVote(series1!, series2!)}
-            class="w-full flex flex-col justify-center items-center"
-        >
+    <div
+        class="
+            flex flex-col justify-around px-4 divide-y
+            md:flex-row md:w-full md:divide-y-0 md:divide-x divide-gray-300
+        "
+    >
+        <button onclick={() => handleVote(series1!, series2!)} class="w-full">
             <SeriesCandidate {...series1} />
         </button>
-        <button
-            onclick={() => handleVote(series2!, series1!)}
-            class="w-full flex flex-col justify-center items-center"
-        >
+        <button onclick={() => handleVote(series2!, series1!)} class="w-full">
             <SeriesCandidate {...series2} />
         </button>
     </div>
