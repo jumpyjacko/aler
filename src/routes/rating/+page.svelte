@@ -69,8 +69,16 @@
             );
         }
 
-        const index1 = Math.floor(Math.random() * list.length);
+        var index1;
+        if (list.filter((s) => s.ratingDeviation > 300).length > 0) {
+            list = list.sort((a, b) => b.ratingDeviation - a.ratingDeviation);
+            index1 = Math.floor(Math.random() * 10);
+        } else {
+            index1 = Math.floor(Math.random() * list.length);
+        }
+
         const p1 = list[index1];
+
         const upperBound = p1.mmrRating + 2 * p1.ratingDeviation;
         const lowerBound = p1.mmrRating - 2 * p1.ratingDeviation;
 
