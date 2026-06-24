@@ -24,12 +24,14 @@
             alert(`Failed to load list: ${err}`);
         } finally {
             isLoading = false;
+            window.location.reload();
         }
     }
 
     async function deleteData() {
         result = 0;
         wipeDatabase();
+        window.location.reload();
     }
 
     async function fetchData() {

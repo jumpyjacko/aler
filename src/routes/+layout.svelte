@@ -19,10 +19,10 @@
         const mangaDB: Series[] = await getAllItems("mangalist");
         mangalistLength = mangaDB.length;
 
-        if (globalState.activeList === "mangalist") {
-            selected = 1;
-        } else {
+        if (globalState.activeList === "animelist") {
             selected = 0;
+        } else {
+            selected = 1;
         }
     });
 
