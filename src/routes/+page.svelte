@@ -68,6 +68,16 @@
         >
     </div>
 
+    <p>
+        Supports
+        <a
+            href="https://myanimelist.net/panel.php?go=export"
+            target="_blank"
+            class="underline text-blue-600 hover:text-blue-800 visited:text-purple-900"
+            >MyAnimeList</a
+        > and <span class="line-through">AniList</span>.
+    </p>
+
     {#if result > 0}
         <p class="italic text-gray-500">
             Currently loaded {result} entries
