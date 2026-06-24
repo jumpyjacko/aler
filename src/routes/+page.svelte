@@ -8,8 +8,10 @@
     let result: number = $state(0);
     let isLoading: boolean = $state(false);
 
+    let activeList: string = localStorage.getItem("activeList") ?? "animelist";
+
     onMount(async () => {
-        const db: Series[] = await getAllItems("animelist");
+        const db: Series[] = await getAllItems(activeList);
         result = db.length;
     });
 
@@ -28,9 +30,9 @@
     }
 
     async function deleteData() {
-        await clearStore("animelist");
+        await clearStore("animelist"); // TODO: replace with function that wipes entire db
         await clearStore("mangalist");
-        const db: Series[] = await getAllItems("animelist");
+        const db: Series[] = await getAllItems(activeList);
         result = db.length;
     }
 </script>

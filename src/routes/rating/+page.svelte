@@ -16,8 +16,10 @@
 
     let medianRD: number = $state(0);
 
+    let activeList: string = localStorage.getItem("activeList") ?? "animelist";
+
     onMount(async () => {
-        const db: Series[] = await getAllItems("animelist");
+        const db: Series[] = await getAllItems(activeList);
         if (db.length === 0) return;
         seriesList = db;
 
@@ -29,7 +31,7 @@
         await updateEntry(winner, p1);
         await updateEntry(loser, p2);
 
-        seriesList = await getAllItems("list"); // TODO: probably not a good idea
+        seriesList = await getAllItems(activeList); // TODO: probably not a good idea
         [series1, series2] = pickTwo(seriesList!);
     }
 
@@ -42,7 +44,7 @@
         await updateEntry(series1!, p1);
         await updateEntry(series2!, p2);
 
-        seriesList = await getAllItems("animelist"); // TODO: probably not a good idea
+        seriesList = await getAllItems(activeList); // TODO: probably not a good idea
         [series1, series2] = pickTwo(seriesList!);
     }
 
@@ -61,7 +63,7 @@
             };
         }
 
-        await putItem("animelist", series);
+        await putItem(activeList, series);
     }
 
     function pickTwo(list: Series[]): [Series, Series] {
@@ -81,7 +83,8 @@
 
         const p1 = list[index1];
 
-        if (Math.random() < 0.01) { // randomly pick true random bc why not
+        if (Math.random() < 0.01) {
+            // randomly pick true random bc why not
             // console.log("random pick!");
             const p2 = list[Math.floor(Math.random() * list.length)];
             return [p1, p2];
@@ -150,5 +153,5 @@
 {/if}
 
 <footer class="text-sm text-gray-600 fixed bottom-0 p-2">
-Median rating deviation: {medianRD}, aiming for around &lt;100
+    Median rating deviation: {medianRD}, aiming for around &lt;100
 </footer>

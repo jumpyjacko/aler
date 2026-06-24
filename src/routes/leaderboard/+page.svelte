@@ -7,8 +7,10 @@
 
     let seriesList: Series[] | null = $state(null);
 
+    let activeList: string = localStorage.getItem("activeList") ?? "animelist";
+
     onMount(async () => {
-        const db: Series[] = await getAllItems("animelist");
+        const db: Series[] = await getAllItems(activeList);
         if (db.length === 0) return;
         seriesList = db.sort((a, b) => b.mmrRating - a.mmrRating);
     });
