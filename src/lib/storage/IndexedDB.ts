@@ -91,6 +91,26 @@ export async function clearStore(storeName: string) {
     })
 }
 
+export async function getAllStores(): Promise<string[]> {
+    const db = await openDB();
+    const storeNames = Array.from(db.objectStoreNames);
+    db.close();
+    return storeNames;
+}
+
+export function wipeDatabase(): Promise<void> {
+    return new Promise((resolve, reject) => {
+        const request = window.indexedDB.deleteDatabase(DB_NAME);
+
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+        request.onblocked = () => {
+            console.warn("Database deletion blocked. Please close other open tabs/connections.");
+            reject(new Error("Database deletion blocked by an open connection."));
+        };
+    });
+}
+
 // export async function getFromAllStores<T>(key: IDBValidKey): Promise<T | null> {
 //     const db = await openDB();
 //

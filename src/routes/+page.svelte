@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getList } from "$lib/loaders";
     import { type Series } from "$lib/Series";
-    import { clearStore, getAllItems } from "$lib/storage/IndexedDB";
+    import { getAllItems, wipeDatabase } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
     import { globalState } from "./globalState.svelte";
 
@@ -28,10 +28,8 @@
     }
 
     async function deleteData() {
-        await clearStore("animelist"); // TODO: replace with function that wipes entire db
-        await clearStore("mangalist");
-        const db: Series[] = await getAllItems(globalState.activeList);
-        result = db.length;
+        result = 0;
+        wipeDatabase();
     }
 
     async function fetchData() {
