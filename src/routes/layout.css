@@ -4,6 +4,37 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --font-inter: "Inter", sans-serif;
+
+    --color-surface: #ffffff;
+    --color-text: #000000;
+    --color-text-faded: #99A1AF;
+    --color-text-dim: #4A5565;
+    --color-primary: #3b87ca;
+    --color-primary-faded: #eaf1f7;
+    --color-primary-dimmed: #356691;
+    --color-secondary: #ca506e;
+    --color-secondary-dimmed: #f7e1e7;
+
+    --breakpoint-md: 50rem;
+}
+
+/* Corrected Dark Mode overrides */
+@layer theme {
+    * {
+        @variant dark {
+            --color-surface: #19191b;
+            --color-text: #ffffff;
+            --color-text-faded: #888888;
+            --color-text-dim: #dddddd;
+            --color-primary: #ffffff;
+            --color-primary-faded: #29292b;
+            --color-primary-dimmed: #bbbbbb;
+            --color-secondary: #ca506e;
+            --color-secondary-dimmed: #f7e1e7;
+        }
+    }
 }

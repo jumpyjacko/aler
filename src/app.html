@@ -1,12 +1,33 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="text-scale" content="scale" />
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover" class="font-inter">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="text-scale" content="scale" />
+    %sveltekit.head%
+
+
+    <script>
+        if (!("theme" in localStorage)) {
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                localStorage.theme = "dark";
+            } else {
+                localStorage.theme = "light";
+            }
+        }
+
+        document.documentElement.classList.toggle(
+            "dark",
+            localStorage.theme === "dark" ||
+            (!("theme" in localStorage) &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches),
+        );
+    </script>
+</head>
+
+<body data-sveltekit-preload-data="hover" class="font-inter bg-surface text-text transition-colors duration-100">
+    <div style="display: contents">%sveltekit.body%</div>
+</body>
+
 </html>

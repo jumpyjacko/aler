@@ -7,6 +7,8 @@
     import { getAllItems } from "$lib/storage/IndexedDB";
     import { globalState } from "./globalState.svelte";
 
+    import DarkmodeToggle from "./darkmodeToggle.svelte";
+
     let { children } = $props();
 
     let selected: number = $state(0);
@@ -35,21 +37,21 @@
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
 <nav
-    class="sticky left-0 top-0 w-full flex flex-col md:flex-row px-8 py-2 justify-between bg-white border-b border-gray-200"
+    class="sticky left-0 top-0 w-full flex flex-col md:flex-row px-8 py-2 justify-between bg-surface border-b border-text-faded transition-colors duration-100"
 >
     <div class="flex flex-row gap-4 items-center">
         <a href={resolve("/")} class="font-bold">alér</a>
 
         {#if animelistLength > 0 || mangalistLength > 0}
-            <span class="text-gray-300">|</span>
+            <span class="text-text-dim">|</span>
         {/if}
 
         {#if animelistLength > 0}
             <button
                 onclick={() => handleDatabaseSelection("animelist")}
                 class="cursor-pointer transition-all {selected === 0
-                    ? 'text-black border-b border-black font-medium'
-                    : 'text-gray-400'}"
+                    ? 'border-b border-text font-medium'
+                    : 'text-text-faded'}"
             >
                 anime
             </button>
@@ -58,8 +60,8 @@
             <button
                 onclick={() => handleDatabaseSelection("mangalist")}
                 class="cursor-pointer transition-all {selected === 1
-                    ? 'text-black  border-b border-black font-medium'
-                    : 'text-gray-400'}"
+                    ? 'border-b border-text font-medium'
+                    : 'text-text-faded'}"
             >
                 manga
             </button>
@@ -67,16 +69,18 @@
     </div>
 
     <div class="flex flex-row mt-3 md:mt-0 gap-4 items-center">
-        <a href={resolve("/")} class="text-gray-600 hover:text-black">Home</a>
-        <a href={resolve("/rating")} class="text-gray-600 hover:text-black"
+        <a href={resolve("/")} class="text-text-dim hover:text-text">Home</a>
+        <a href={resolve("/rating")} class="text-text-dim hover:text-text"
             >Rating</a
         >
-        <a href={resolve("/leaderboard")} class="text-gray-600 hover:text-black"
+        <a href={resolve("/leaderboard")} class="text-text-dim hover:text-text"
             >Leaderboard</a
         >
-        <a href={resolve("/statistics")} class="text-gray-600 hover:text-black"
+        <a href={resolve("/statistics")} class="text-text-dim hover:text-text"
             >Stats</a
         >
+
+        <DarkmodeToggle />
     </div>
 </nav>
 

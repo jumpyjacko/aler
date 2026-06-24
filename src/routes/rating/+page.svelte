@@ -140,8 +140,8 @@
 {#if series1 && series2}
     <div
         class="
-            flex flex-col justify-around px-4 divide-y
-            md:flex-row md:w-full md:divide-y-0 md:divide-x divide-gray-300
+            flex flex-col justify-around px-4 divide-y mt-10
+            md:flex-row md:w-full md:divide-y-0 md:divide-x divide-text-faded
         "
     >
         <button onclick={() => handleVote(series1!, series2!)} class="w-full">
@@ -155,11 +155,11 @@
     <div class="flex flex-row gap-4 w-full justify-center mt-10">
         <button
             onclick={handleDraw}
-            class="px-4 py-2 rounded-full bg-blue-400 text-white">Draw</button
+            class="px-4 py-2 rounded-full bg-primary text-primary-faded">Draw</button
         >
         <button
             onclick={handleSkip}
-            class="px-4 py-2 rounded-full bg-blue-200 text-blue-500"
+            class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed"
             >Skip</button
         >
     </div>
@@ -170,6 +170,6 @@
     </div>
 {/if}
 
-<footer class="text-sm text-gray-600 fixed bottom-0 p-2">
+<footer class="text-sm text-text-faded fixed bottom-0 p-2">
     Median rating deviation: {medianRD}, aiming for around &lt;100
 </footer>

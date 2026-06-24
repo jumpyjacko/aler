@@ -52,7 +52,7 @@
 <div class="flex flex-col items-center justify-center mt-50 gap-4">
     <div class="mb-5">
         <h1 class="text-5xl">alér</h1>
-        <p class="text-gray-400 mb-2">anime list elo ratings</p>
+        <p class="text-text-faded mb-2">anime list elo ratings</p>
         <p class="text-lg">A pairwise media rating system.</p>
     </div>
 
@@ -60,14 +60,14 @@
         <label
             class="
         cursor-pointer inline-flex items-center justify-center px-4 py-2
-        bg-blue-400 text-white font-medium rounded-full shadow-sm
+        bg-primary text-primary-faded font-medium rounded-full shadow-sm
         transition-colors duration-200"
         >
             <span>Import list</span>
             {#if isLoading}
                 <div class="flex items-center justify-center pl-2">
                     <div
-                        class="animate-spin rounded-full h-4 w-4 border-2 border-gray-500 border-t-white"
+                        class="animate-spin rounded-full h-4 w-4 border-2 border-primary-faded border-t-primary-dimmed"
                     ></div>
                 </div>
             {/if}
@@ -82,7 +82,7 @@
 
         <button
             onclick={deleteData}
-            class="px-4 py-2 rounded-full bg-blue-200 text-blue-500"
+            class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed"
             >Delete ALL Data</button
         >
     </div>
@@ -92,14 +92,14 @@
         <a
             href="https://myanimelist.net/panel.php?go=export"
             target="_blank"
-            class="underline text-blue-600 hover:text-blue-800 visited:text-purple-900"
+            class="underline text-primary hover:text-primary-dimmed visited:text-purple-800 dark:visited:text-purple-400"
             >MyAnimeList</a
         >
         and <span class="line-through">AniList</span>.
     </p>
 
     {#if result > 0}
-        <p class="text-gray-500 text-center">
+        <p class="text-text-faded text-center">
             Currently loaded {result} entries
         </p>
     {/if}

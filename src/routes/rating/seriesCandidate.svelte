@@ -27,8 +27,8 @@
     <div class="w-60 md:w-[90%] p-4 text-left md:text-center">
         <div class="text-lg">{title}</div>
         <div class="text-sm">{userStatus}</div>
-        <div class="text-gray-600 text-sm">Global: {+rating / 10}</div>
-        <div class="text-gray-600 text-sm">Yours: {userRating}</div>
-        <div class="text-gray-600 text-sm">Rating: {mmrRating}</div>
+        <div class="text-text-faded text-sm">Global: {+rating / 10}</div>
+        <div class="text-text-faded text-sm">Yours: {userRating}</div>
+        <div class="text-text-faded text-sm text-">Rating: {mmrRating}</div>
     </div>
 </div>

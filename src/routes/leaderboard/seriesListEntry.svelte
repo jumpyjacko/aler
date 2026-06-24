@@ -4,7 +4,7 @@
 </script>
 
 <div
-    class="grid grid-cols-[3rem_1fr] md:grid-cols-[3rem_8fr_8rem_6rem_6rem_8rem] gap-x-4 gap-y-1 p-4 min-h-24 md:h-24 w-full items-center border-b border-gray-100"
+    class="grid grid-cols-[3rem_1fr] md:grid-cols-[3rem_8fr_8rem_6rem_6rem_8rem] gap-x-4 gap-y-1 p-4 min-h-24 md:h-24 w-full items-center border-b border-text-faded"
 >
     <img
         src={coverImage}
@@ -19,7 +19,7 @@
     </div>
 
     <div
-        class="col-start-2 flex flex-col gap-0.5 md:contents text-left md:text-right text-sm text-gray-600 self-start md:self-center"
+        class="col-start-2 flex flex-col gap-0.5 md:contents text-left md:text-right text-sm text-text-dim dark:text-text-faded self-start md:self-center"
     >
         <div class="truncate">{userStatus}</div>
         <div class="truncate">Global: {+rating / 10}</div>
