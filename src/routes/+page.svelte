@@ -50,7 +50,11 @@
 </script>
 
 <div class="flex flex-col items-center justify-center mt-50 gap-4">
-    <h1 class="text-5xl mb-5">alér</h1>
+    <div class="mb-5">
+        <h1 class="text-5xl">alér</h1>
+        <p class="text-gray-400 mb-2">anime list elo ratings</p>
+        <p class="text-lg">A pairwise media rating system.</p>
+    </div>
 
     <div class="flex flex-row gap-2">
         <label
@@ -95,7 +99,7 @@
     </p>
 
     {#if result > 0}
-        <p class="italic text-gray-500">
+        <p class="text-gray-500 text-center">
             Currently loaded {result} entries
         </p>
     {/if}
