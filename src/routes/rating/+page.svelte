@@ -115,11 +115,11 @@
     <div class="flex flex-row gap-4 w-full justify-center mt-10">
         <button
             onclick={handleDraw}
-            class="px-4 py-2 rounded-full bg-blue-500 text-white">Draw</button
+            class="px-4 py-2 rounded-full bg-blue-400 text-white">Draw</button
         >
         <button
             onclick={handleSkip}
-            class="px-4 py-2 rounded-full bg-blue-200 text-blue-800"
+            class="px-4 py-2 rounded-full bg-blue-200 text-blue-500"
             >Skip</button
         >
     </div>
