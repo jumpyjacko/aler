@@ -35,7 +35,7 @@
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
 <nav
-    class="sticky left-0 top-0 w-full flex flex-row px-8 py-2 justify-between bg-white border-b border-gray-200"
+    class="sticky left-0 top-0 w-full flex flex-col md:flex-row px-8 py-2 justify-between bg-white border-b border-gray-200"
 >
     <div class="flex flex-row gap-4 items-center">
         <a href={resolve("/")} class="font-bold">alér</a>
@@ -66,7 +66,7 @@
         {/if}
     </div>
 
-    <div class="flex flex-row gap-4 items-center">
+    <div class="flex flex-row mt-3 md:mt-0 gap-4 items-center">
         <a href={resolve("/")} class="text-gray-600 hover:text-black">Home</a>
         <a href={resolve("/rating")} class="text-gray-600 hover:text-black"
             >Rating</a
