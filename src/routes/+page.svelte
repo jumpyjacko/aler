@@ -8,9 +8,10 @@
     let result: number = $state(0);
     let isLoading: boolean = $state(false);
 
-    let activeList: string = localStorage.getItem("activeList") ?? "animelist";
+    let activeList: string = "animelist";
 
     onMount(async () => {
+        activeList = localStorage.getItem("activeList") ?? "animelist";
         const db: Series[] = await getAllItems(activeList);
         result = db.length;
     });
