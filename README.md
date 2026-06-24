@@ -1,7 +1,10 @@
-# aler
-Anime List Elo\* Rebalancer
+# alér
+Anime List Elo\* Ratings.
 
-\*May or may not actually use Elo, Glicko, Glicko-2.
+A pairwise media rating system.
+
+
+\*Currently uses Glicko.
 
 ## Developing
 
