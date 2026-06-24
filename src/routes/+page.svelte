@@ -50,7 +50,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-center mt-50 gap-4">
-    <h1 class="text-2xl">Anime List Elo Ranker (or Rebalancer)</h1>
+    <h1 class="text-5xl mb-5">alér</h1>
 
     <div class="flex flex-row gap-2">
         <label
@@ -79,7 +79,7 @@
         <button
             onclick={deleteData}
             class="px-4 py-2 rounded-full bg-blue-200 text-blue-500"
-            >Delete Data</button
+            >Delete ALL Data</button
         >
     </div>
 
