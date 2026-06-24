@@ -7,6 +7,7 @@
 
     import SeriesCandidate from "./seriesCandidate.svelte";
     import { globalState } from "../globalState.svelte";
+    import { resolve } from "$app/paths";
 
     let seriesList: Series[] | null = $state(null);
 
@@ -161,6 +162,11 @@
             class="px-4 py-2 rounded-full bg-blue-200 text-blue-500"
             >Skip</button
         >
+    </div>
+{:else}
+    <div class="text-lg w-full text-center">
+    No list loaded!
+    Go to <a href={resolve("/")} class="underline">home</a> and load a list.
     </div>
 {/if}
 
