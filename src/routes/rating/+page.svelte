@@ -6,6 +6,7 @@
     import { onMount } from "svelte";
 
     import SeriesCandidate from "./seriesCandidate.svelte";
+    import { globalState } from "../globalState.svelte";
 
     let seriesList: Series[] | null = $state(null);
 
@@ -16,23 +17,28 @@
 
     let medianRD: number = $state(0);
 
-    let activeList: string = "animelist";
-
     onMount(async () => {
-        activeList = localStorage.getItem("activeList") ?? "animelist";
-        const db: Series[] = await getAllItems(activeList);
-        if (db.length === 0) return;
-        seriesList = db;
-
-        [series1, series2] = pickTwo(seriesList);
+        fetchData();
     });
+
+    async function fetchData() {
+        try {
+            const db: Series[] = await getAllItems(globalState.activeList);
+            if (db.length === 0) return;
+            seriesList = db;
+
+            [series1, series2] = pickTwo(seriesList);
+        } catch (error) {
+            console.error("Failed to fetch items:", error);
+        }
+    }
 
     async function handleVote(winner: Series, loser: Series): Promise<void> {
         const [p1, p2] = ratingSystem.update(winner, loser, MatchOutcome.win);
         await updateEntry(winner, p1);
         await updateEntry(loser, p2);
 
-        seriesList = await getAllItems(activeList); // TODO: probably not a good idea
+        seriesList = await getAllItems(globalState.activeList); // TODO: probably not a good idea
         [series1, series2] = pickTwo(seriesList!);
     }
 
@@ -45,7 +51,7 @@
         await updateEntry(series1!, p1);
         await updateEntry(series2!, p2);
 
-        seriesList = await getAllItems(activeList); // TODO: probably not a good idea
+        seriesList = await getAllItems(globalState.activeList); // TODO: probably not a good idea
         [series1, series2] = pickTwo(seriesList!);
     }
 
@@ -64,7 +70,7 @@
             };
         }
 
-        await putItem(activeList, series);
+        await putItem(globalState.activeList, series);
     }
 
     function pickTwo(list: Series[]): [Series, Series] {
@@ -122,6 +128,11 @@
         } else {
             medianRD = (rds[mid - 1] + rds[mid - 1]) / 2;
         }
+    });
+
+    $effect(() => {
+        const activeList = globalState.activeList; // throwaway state so it reacts properly
+        fetchData();
     });
 </script>
 

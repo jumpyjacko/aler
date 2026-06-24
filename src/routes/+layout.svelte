@@ -5,11 +5,11 @@
     import { onMount } from "svelte";
     import type { Series } from "$lib/Series";
     import { getAllItems } from "$lib/storage/IndexedDB";
+    import { globalState } from "./globalState.svelte";
 
     let { children } = $props();
 
     let selected: number = $state(0);
-
     let animelistLength: number = $state(0);
     let mangalistLength: number = $state(0);
 
@@ -19,18 +19,16 @@
         const mangaDB: Series[] = await getAllItems("mangalist");
         mangalistLength = mangaDB.length;
 
-        const activeList = localStorage.getItem("activeList");
-        if (activeList === "mangalist") {
+        if (globalState.activeList === "mangalist") {
             selected = 1;
         } else {
             selected = 0;
         }
     });
 
-    function handleDatabaseSelection(index: number) {
-        selected = index; // Update the selected state
-        let list = index === 0 ? "animelist" : "mangalist";
-        localStorage.setItem("activeList", list);
+    function handleDatabaseSelection(list: string) {
+        selected = list === "animelist" ? 0 : 1; // TODO: make this better
+        globalState.activeList = list;
     }
 </script>
 
@@ -48,7 +46,7 @@
 
         {#if animelistLength > 0}
             <button
-                onclick={() => handleDatabaseSelection(0)}
+                onclick={() => handleDatabaseSelection("animelist")}
                 class="cursor-pointer transition-all {selected === 0
                     ? 'text-black border-b border-black font-medium'
                     : 'text-gray-400'}"
@@ -58,7 +56,7 @@
         {/if}
         {#if mangalistLength > 0}
             <button
-                onclick={() => handleDatabaseSelection(1)}
+                onclick={() => handleDatabaseSelection("mangalist")}
                 class="cursor-pointer transition-all {selected === 1
                     ? 'text-black  border-b border-black font-medium'
                     : 'text-gray-400'}"

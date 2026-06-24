@@ -4,16 +4,27 @@
     import { onMount } from "svelte";
 
     import SeriesListEntry from "./seriesListEntry.svelte";
+    import { globalState } from "../globalState.svelte";
 
     let seriesList: Series[] | null = $state(null);
 
-    let activeList: string = "animelist";
-
     onMount(async () => {
-        activeList = localStorage.getItem("activeList") ?? "animelist";
-        const db: Series[] = await getAllItems(activeList);
-        if (db.length === 0) return;
-        seriesList = db.sort((a, b) => b.mmrRating - a.mmrRating);
+        await fetchData();
+    });
+
+    async function fetchData() {
+        try {
+            const db: Series[] = await getAllItems(globalState.activeList);
+            if (db.length === 0) return;
+            seriesList = db.sort((a, b) => b.mmrRating - a.mmrRating);
+        } catch (error) {
+            console.error("Failed to fetch items:", error);
+        }
+    }
+
+    $effect(() => {
+        const activeList = globalState.activeList;
+        fetchData();
     });
 </script>
 

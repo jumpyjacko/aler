@@ -3,17 +3,14 @@
     import { type Series } from "$lib/Series";
     import { clearStore, getAllItems } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
+    import { globalState } from "./globalState.svelte";
 
     let files: FileList | null = $state(null);
     let result: number = $state(0);
     let isLoading: boolean = $state(false);
 
-    let activeList: string = "animelist";
-
     onMount(async () => {
-        activeList = localStorage.getItem("activeList") ?? "animelist";
-        const db: Series[] = await getAllItems(activeList);
-        result = db.length;
+        await fetchData();
     });
 
     async function onFileSelected() {
@@ -33,9 +30,23 @@
     async function deleteData() {
         await clearStore("animelist"); // TODO: replace with function that wipes entire db
         await clearStore("mangalist");
-        const db: Series[] = await getAllItems(activeList);
+        const db: Series[] = await getAllItems(globalState.activeList);
         result = db.length;
     }
+
+    async function fetchData() {
+        try {
+            const db: Series[] = await getAllItems(globalState.activeList);
+            result = db.length;
+        } catch (error) {
+            console.error("Failed to fetch items:", error);
+        }
+    }
+
+    $effect(() => {
+        const activeList = globalState.activeList; // throwaway state so it reacts properly
+        fetchData();
+    });
 </script>
 
 <div class="flex flex-col items-center justify-center mt-50 gap-4">
