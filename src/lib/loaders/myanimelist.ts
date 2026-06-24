@@ -52,7 +52,7 @@ export class MALLoader implements Loader {
         for (const raw_series of raw_list) {
             let status: UserStatus = statusMap[raw_series.my_status];
 
-            // if (status === UserStatus.PlanToWatch) continue;
+            if (status === UserStatus.PlanToWatch || status === UserStatus.PlanToRead) continue; // TODO: make this an option maybe? idk
 
             if (status === undefined) throw new Error(`Unknown or missing user status: ${raw_series.my_status}`);
 
@@ -67,9 +67,6 @@ export class MALLoader implements Loader {
                         userStatus: status,
                         userRating: +raw_series.my_score,
                         readChapters: +raw_series.my_read_chapters,
-
-                        mmrRating: 1500,
-                        ratingDeviation: 350,
                     };
                     break;
                 case ListType.Anime:
@@ -80,12 +77,16 @@ export class MALLoader implements Loader {
                         title: raw_series.series_title,
                         userStatus: status,
                         userRating: +raw_series.my_score,
-
-                        mmrRating: 1500,
-                        ratingDeviation: 350,
                     }
                     break;
             }
+
+            let initialRating = (series.userRating * 100) + 900;
+            series = {
+                ...series,
+                mmrRating: initialRating,
+                ratingDeviation: 350,
+            };
 
             list.push(series);
         }
