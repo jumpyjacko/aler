@@ -2,8 +2,14 @@ import type { Series } from "$lib/Series";
 import { getAllItems, putItem } from "$lib/storage/IndexedDB";
 import { MALLoader } from "./myanimelist";
 
+export enum ListType {
+    Manga,
+    Anime,
+}
+
 export interface Loader {
     readonly supportedExtension: string;
+    listType: ListType,
 
     load(file: File): Promise<Series[]>;
 
@@ -25,9 +31,19 @@ export async function getList(file: File): Promise<Series[]> {
 
     let seriesList = await matchingLoader.load(file);
 
-    for (const series of seriesList) {
-        await putItem("list", series);
+    let store: string = "animelist"
+    switch (matchingLoader.listType) {
+        case ListType.Manga:
+            store = "mangalist";
+            break;
+        case ListType.Anime:
+        default:
+            break;
     }
 
-    return getAllItems("list");
+    for (const series of seriesList) {
+        await putItem(store, series);
+    }
+
+    return getAllItems(store);
 }

@@ -1,13 +1,21 @@
 import { SeriesStatus, UserStatus, type Series } from "$lib/Series";
 import { sendQuery } from "$lib/clients/AniList";
-import type { Loader } from ".";
+import { ListType, type Loader } from ".";
 
 import { XMLParser } from "fast-xml-parser";
 
 export class MALLoader implements Loader {
     readonly supportedExtension: string = ".xml";
+    listType: ListType = ListType.Anime;
 
     async load(file: File): Promise<Series[]> {
+        const prefix = file.name.split('_')[0];
+        if (prefix === "animelist") {
+            this.listType = ListType.Anime;
+        } else if (prefix === "mangalist") {
+            this.listType = ListType.Manga;
+        }
+
         const raw = await file.text();
 
         const parser = new XMLParser();

@@ -9,7 +9,7 @@
     let isLoading: boolean = $state(false);
 
     onMount(async () => {
-        const db: Series[] = await getAllItems("list");
+        const db: Series[] = await getAllItems("animelist");
         result = db.length;
     });
 
@@ -28,8 +28,9 @@
     }
 
     async function deleteData() {
-        await clearStore("list");
-        const db: Series[] = await getAllItems("list");
+        await clearStore("animelist");
+        await clearStore("mangalist");
+        const db: Series[] = await getAllItems("animelist");
         result = db.length;
     }
 </script>
@@ -75,7 +76,8 @@
             target="_blank"
             class="underline text-blue-600 hover:text-blue-800 visited:text-purple-900"
             >MyAnimeList</a
-        > and <span class="line-through">AniList</span>.
+        >
+        and <span class="line-through">AniList</span>.
     </p>
 
     {#if result > 0}
