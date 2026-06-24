@@ -14,7 +14,7 @@
 
     const ratingSystem = new Glicko(); // TODO: make this an option that a user could switch with like Elo or Glicko-2
 
-    let medianRD: number = $state(350);
+    let medianRD: number = $state(0);
 
     onMount(async () => {
         const db: Series[] = await getAllItems("list");
@@ -72,14 +72,20 @@
         }
 
         var index1;
-        if (list.filter((s) => s.ratingDeviation > 300).length > 0) {
+        if (list.filter((s) => s.ratingDeviation > 200).length > 0) {
             list = list.sort((a, b) => b.ratingDeviation - a.ratingDeviation);
-            index1 = Math.floor(Math.random() * 10);
+            index1 = Math.floor(Math.random() * (list.length * 0.05));
         } else {
             index1 = Math.floor(Math.random() * list.length);
         }
 
         const p1 = list[index1];
+
+        if (Math.random() < 0.01) { // randomly pick true random bc why not
+            console.log("random pick!");
+            const p2 = list[Math.floor(Math.random() * list.length)];
+            return [p1, p2];
+        }
 
         const upperBound = p1.mmrRating + 2 * p1.ratingDeviation;
         const lowerBound = p1.mmrRating - 2 * p1.ratingDeviation;
@@ -99,7 +105,7 @@
     }
 
     $effect(() => {
-        if (!seriesList) return;
+        if (seriesList === null) return;
 
         const rds = seriesList
             .map((c) => c.ratingDeviation)
