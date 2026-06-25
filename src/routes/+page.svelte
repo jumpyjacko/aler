@@ -3,8 +3,7 @@
     import { type Series } from "$lib/Series";
     import { getAllItems, wipeDatabase } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
-    import { globalState } from "./globalState.svelte";
-    import { initSettings } from "$lib/settings.svelte";
+    import { initSettings, miscState } from "$lib/settings.svelte";
 
     let files: FileList | null = $state(null);
     let result: number = $state(0);
@@ -39,7 +38,7 @@
 
     async function fetchData() {
         try {
-            const db: Series[] = await getAllItems(globalState.activeList);
+            const db: Series[] = await getAllItems(miscState.activeList);
             result = db.length;
         } catch (error) {
             console.error("Failed to fetch items:", error);
@@ -47,7 +46,7 @@
     }
 
     $effect(() => {
-        const activeList = globalState.activeList; // throwaway state so it reacts properly
+        const activeList = miscState.activeList; // throwaway state so it reacts properly
         fetchData();
     });
 </script>

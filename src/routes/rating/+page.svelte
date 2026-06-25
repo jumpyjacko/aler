@@ -8,7 +8,7 @@
     import { onMount } from "svelte";
 
     import SeriesCandidate from "./seriesCandidate.svelte";
-    import { globalState } from "../globalState.svelte";
+    import { miscState } from "$lib/settings.svelte";
 
     let seriesList: Series[] | null = $state(null);
 
@@ -25,7 +25,7 @@
 
     async function fetchData() {
         try {
-            const db: Series[] = await getAllItems(globalState.activeList);
+            const db: Series[] = await getAllItems(miscState.activeList);
             if (db.length === 0) return;
             seriesList = db;
 
@@ -40,7 +40,7 @@
         await updateEntry(winner, p1);
         await updateEntry(loser, p2);
 
-        seriesList = await getAllItems(globalState.activeList); // TODO: probably not a good idea
+        seriesList = await getAllItems(miscState.activeList); // TODO: probably not a good idea
         [series1, series2] = pickTwo(seriesList!);
     }
 
@@ -53,7 +53,7 @@
         await updateEntry(series1!, p1);
         await updateEntry(series2!, p2);
 
-        seriesList = await getAllItems(globalState.activeList); // TODO: probably not a good idea
+        seriesList = await getAllItems(miscState.activeList); // TODO: probably not a good idea
         [series1, series2] = pickTwo(seriesList!);
     }
 
@@ -72,7 +72,7 @@
             };
         }
 
-        await putItem(globalState.activeList, series);
+        await putItem(miscState.activeList, series);
     }
 
     $effect(() => {
@@ -92,7 +92,7 @@
     });
 
     $effect(() => {
-        const activeList = globalState.activeList; // throwaway state so it reacts properly
+        const activeList = miscState.activeList; // throwaway state so it reacts properly
         fetchData();
     });
 </script>

@@ -5,9 +5,9 @@
     import { onMount } from "svelte";
     import type { Series } from "$lib/Series";
     import { getAllItems } from "$lib/storage/IndexedDB";
-    import { globalState } from "./globalState.svelte";
 
     import DarkmodeToggle from "./darkmodeToggle.svelte";
+    import { miscState } from "$lib/settings.svelte";
 
     let { children } = $props();
 
@@ -21,7 +21,7 @@
         const mangaDB: Series[] = await getAllItems("mangalist");
         mangalistLength = mangaDB.length;
 
-        if (globalState.activeList === "animelist") {
+        if (miscState.activeList === "animelist") {
             selected = 0;
         } else {
             selected = 1;
@@ -30,7 +30,7 @@
 
     function handleDatabaseSelection(list: string) {
         selected = list === "animelist" ? 0 : 1; // TODO: make this better
-        globalState.activeList = list;
+        miscState.activeList = list;
     }
 </script>
 

@@ -40,6 +40,10 @@ export const settings = $state<SettingItem[]>([
     }
 ]);
 
+export let miscState = $state({
+    activeList: "animelist",
+});
+
 export function initSettings() {
     if (!browser) return;
 

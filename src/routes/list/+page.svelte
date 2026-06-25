@@ -4,7 +4,7 @@
     import { onMount } from "svelte";
 
     import SeriesListEntry from "./seriesListEntry.svelte";
-    import { globalState } from "../globalState.svelte";
+    import { miscState } from "$lib/settings.svelte";
 
     let seriesList: Series[] | null = $state(null);
 
@@ -18,7 +18,7 @@
         const excludeMVS = localStorage.getItem("excludeMovies") === "true";
 
         try {
-            const db: Series[] = await getAllItems(globalState.activeList);
+            const db: Series[] = await getAllItems(miscState.activeList);
             if (db.length === 0) return;
             seriesList = db
                 .filter((s) => {
@@ -45,7 +45,7 @@
     }
 
     $effect(() => {
-        const activeList = globalState.activeList;
+        const activeList = miscState.activeList;
         fetchData();
     });
 </script>
