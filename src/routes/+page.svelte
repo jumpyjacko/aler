@@ -4,12 +4,14 @@
     import { getAllItems, wipeDatabase } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
     import { globalState } from "./globalState.svelte";
+    import { initSettings } from "$lib/settings.svelte";
 
     let files: FileList | null = $state(null);
     let result: number = $state(0);
     let isLoading: boolean = $state(false);
 
     onMount(async () => {
+        initSettings();
         await fetchData();
     });
 

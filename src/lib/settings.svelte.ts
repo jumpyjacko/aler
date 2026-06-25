@@ -14,7 +14,7 @@ const DEFAULTS: Record<string, boolean> = {
 };
 
 function getInitialValue(key: string, defaultValue: boolean): boolean {
-    if (!browser) return defaultValue; 
+    if (!browser) return defaultValue;
     const stored = localStorage.getItem(key);
     return stored !== null ? stored === "true" : defaultValue;
 }
@@ -39,6 +39,16 @@ export const settings = $state<SettingItem[]>([
         checked: getInitialValue("excludeMovies", DEFAULTS.excludeMovies)
     }
 ]);
+
+export function initSettings() {
+    if (!browser) return;
+
+    settings.forEach(setting => {
+        if (localStorage.getItem(setting.key) === null) {
+            localStorage.setItem(setting.key, String(setting.checked));
+        }
+    });
+}
 
 if (browser) {
     $effect.root(() => {
