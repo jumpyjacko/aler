@@ -9,6 +9,7 @@ interface SettingItem {
 
 const DEFAULTS: Record<string, boolean> = {
     excludePlanning: true,
+    excludeDropped: false,
     excludeOneshots: false,
     excludeMovies: false
 };
@@ -27,6 +28,12 @@ export const settings = $state<SettingItem[]>([
         checked: getInitialValue("excludePlanning", DEFAULTS.excludePlanning)
     },
     {
+        key: "excludeDropped",
+        title: "Exclude 'Dropped' status",
+        description: "Excludes series marked as 'Dropped' from being displayed.",
+        checked: getInitialValue("excludeDropped", DEFAULTS.excludeDropped)
+    },
+    {
         key: "excludeOneshots",
         title: "Exclude Oneshots",
         description: "Excludes oneshots from being displayed.",
@@ -37,7 +44,7 @@ export const settings = $state<SettingItem[]>([
         title: "Exclude Movies",
         description: "Excludes movies from being displayed.",
         checked: getInitialValue("excludeMovies", DEFAULTS.excludeMovies)
-    }
+    },
 ]);
 
 export let miscState = $state({

@@ -9,6 +9,7 @@
 
     import SeriesCandidate from "./seriesCandidate.svelte";
     import { miscState } from "$lib/settings.svelte";
+    import { getFilteredList } from "$lib/storage";
 
     let seriesList: Series[] | null = $state(null);
 
@@ -25,9 +26,7 @@
 
     async function fetchData() {
         try {
-            const db: Series[] = await getAllItems(miscState.activeList);
-            if (db.length === 0) return;
-            seriesList = db;
+            seriesList = await getFilteredList();
 
             [series1, series2] = pickTwo(seriesList);
         } catch (error) {
