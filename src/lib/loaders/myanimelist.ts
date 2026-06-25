@@ -81,7 +81,7 @@ export class MALLoader implements Loader {
                     break;
             }
 
-            let initialRating = (series.userRating * 100) + 900;
+            let initialRating = series.userRating === 0 ? 1350 : Math.round((series.userRating * 700 + 8300) / 9);
             series = {
                 ...series,
                 mmrRating: initialRating,
