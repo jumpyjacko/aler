@@ -1,12 +1,12 @@
-import { SeriesStatus, UserStatus, type Series } from "$lib/Series";
+import { SeriesStatus, SeriesType, UserStatus, type Series } from "$lib/Series";
 import { sendQuery } from "$lib/clients/AniList";
-import { ListType, type Loader } from ".";
+import { type Loader } from ".";
 
 import { XMLParser } from "fast-xml-parser";
 
 export class MALLoader implements Loader {
     readonly supportedExtension: string = ".xml";
-    listType: ListType = ListType.Anime;
+    listType: SeriesType = SeriesType.Anime;
 
     async load(file: File): Promise<Series[]> {
         const raw = await file.text();
@@ -22,17 +22,17 @@ export class MALLoader implements Loader {
             (!Array.isArray(data.myanimelist.manga) || data.myanimelist.manga.length > 0);
 
         if (hasAnime) {
-            this.listType = ListType.Anime;
+            this.listType = SeriesType.Anime;
             raw_list = Array.isArray(data.myanimelist.anime)
                 ? data.myanimelist.anime
                 : [data.myanimelist.anime];
         } else if (hasManga) {
-            this.listType = ListType.Manga;
+            this.listType = SeriesType.Manga;
             raw_list = Array.isArray(data.myanimelist.manga)
                 ? data.myanimelist.manga
                 : [data.myanimelist.manga];
         } else {
-            this.listType = ListType.Anime;
+            this.listType = SeriesType.Anime;
             throw new Error("Couldn't determine type of list.");
         }
 
@@ -59,24 +59,32 @@ export class MALLoader implements Loader {
             let series: Series;
 
             switch (this.listType) {
-                case ListType.Manga:
+                case SeriesType.Manga:
                     series = {
                         id: +raw_series.manga_mangadb_id,
+                        seriesType: this.listType,
                         malId: +raw_series.manga_mangadb_id,
                         title: raw_series.manga_title,
                         userStatus: status,
                         userRating: +raw_series.my_score,
                         readChapters: +raw_series.my_read_chapters,
+
+                        mmrRating: 0,
+                        ratingDeviation: 0,
                     };
                     break;
-                case ListType.Anime:
+                case SeriesType.Anime:
                 default:
                     series = {
                         id: +raw_series.series_animedb_id,
+                        seriesType: this.listType,
                         malId: +raw_series.series_animedb_id,
                         title: raw_series.series_title,
                         userStatus: status,
                         userRating: +raw_series.my_score,
+
+                        mmrRating: 0,
+                        ratingDeviation: 0,
                     }
                     break;
             }
@@ -95,7 +103,7 @@ export class MALLoader implements Loader {
     }
 }
 
-async function fillFromAnilist(seriesList: Series[], listType: ListType): Promise<Series[]> {
+async function fillFromAnilist(seriesList: Series[], listType: SeriesType): Promise<Series[]> {
     const query = `
         query Query($idMalIn: [Int], $type: MediaType) {
           Page {

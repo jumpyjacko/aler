@@ -19,8 +19,14 @@ export enum UserStatus {
 };
 
 
+export enum SeriesType {
+    Anime = "ANIME",
+    Manga = "MANGA",
+}
+
 export interface Series extends Candidate {
     id: number, // internal storage id
+    seriesType: SeriesType, 
     malId?: number,
     anilistId?: number,
 

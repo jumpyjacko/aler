@@ -1,15 +1,10 @@
-import type { Series } from "$lib/Series";
+import { SeriesType, type Series } from "$lib/Series";
 import { getAllItems, putItem } from "$lib/storage/IndexedDB";
 import { MALLoader } from "./myanimelist";
 
-export enum ListType {
-    Manga = "MANGA",
-    Anime = "ANIME",
-}
-
 export interface Loader {
     readonly supportedExtension: string;
-    listType: ListType,
+    listType: SeriesType,
 
     load(file: File): Promise<Series[]>;
 
@@ -23,7 +18,7 @@ const registeredLoaders: Loader[] = [
 export async function getList(file: File): Promise<Series[]> {
     const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
 
-    const matchingLoader = registeredLoaders.find(
+    const matchingLoader = registeredLoaders.find( // TODO: make this support MALExport maybe?
         (loader) => loader.supportedExtension === extension
     );
 
@@ -33,10 +28,10 @@ export async function getList(file: File): Promise<Series[]> {
 
     let store: string = "animelist"
     switch (matchingLoader.listType) {
-        case ListType.Manga:
+        case SeriesType.Manga:
             store = "mangalist";
             break;
-        case ListType.Anime:
+        case SeriesType.Anime:
         default:
             break;
     }
