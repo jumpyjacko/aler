@@ -34,7 +34,10 @@
     }
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+    <link rel="icon" href={favicon} />
+    <title>alér</title>
+</svelte:head>
 
 <nav
     class="sticky left-0 top-0 w-full flex flex-col md:flex-row px-8 py-2 justify-between bg-surface border-b border-text-faded transition-colors duration-100"
@@ -68,7 +71,9 @@
         {/if}
     </div>
 
-    <div class="flex flex-row mt-3 md:mt-0 items-center justify-between w-full md:w-auto md:gap-4">
+    <div
+        class="flex flex-row mt-3 md:mt-0 items-center justify-between w-full md:w-auto md:gap-4"
+    >
         <div class="flex flex-row gap-4">
             <a href={resolve("/")} class="text-text-dim hover:text-text">Home</a
             >
