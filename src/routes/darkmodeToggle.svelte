@@ -31,7 +31,7 @@
 
 <button
     on:click={toggleTheme}
-    class="p-2 rounded-lg text-text-dim hover:text-text transition-colors duration-100"
+    class="pl-2 rounded-lg text-text-dim hover:text-text transition-colors duration-100"
     aria-label="Toggle Dark Mode"
 >
     {#if isDark}
