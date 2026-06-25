@@ -8,7 +8,7 @@ export enum SeriesStatus {
     Hiatus = "Hiatus",
 };
 
-export enum UserStatus { // TODO: consider generalising for other media?
+export enum UserStatus {
     Watching = "Watching",
     Reading = "Reading",
     PlanToWatch = "Plan to Watch",

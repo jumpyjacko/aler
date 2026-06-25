@@ -20,11 +20,12 @@
         try {
             const list = await getList(files[0]);
             result = list.length;
+
+            window.location.reload();
         } catch (err: any) {
             alert(`Failed to load list: ${err}`);
         } finally {
             isLoading = false;
-            window.location.reload();
         }
     }
 

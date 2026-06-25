@@ -9,32 +9,32 @@ export class MALLoader implements Loader {
     listType: ListType = ListType.Anime;
 
     async load(file: File): Promise<Series[]> {
-        const prefix = file.name.split('_')[0];
-        if (prefix === "animelist") {
-            this.listType = ListType.Anime;
-        } else if (prefix === "mangalist") {
-            this.listType = ListType.Manga;
-        }
-
         const raw = await file.text();
 
         const parser = new XMLParser();
         const data = parser.parse(raw);
 
         let raw_list: any;
-        switch (this.listType) {
-            case ListType.Manga:
-                raw_list = Array.isArray(data.myanimelist.manga)
-                    ? data.myanimelist.manga
-                    : data?.myanimelist?.manga ? [data.myanimelist.manga] : [];
-                break;
-            case ListType.Anime:
-            default:
-                raw_list = Array.isArray(data.myanimelist.anime)
-                    ? data.myanimelist.anime
-                    : data?.myanimelist?.anime ? [data.myanimelist.anime] : [];
-        }
+        const hasAnime = data?.myanimelist?.anime &&
+            (!Array.isArray(data.myanimelist.anime) || data.myanimelist.anime.length > 0);
 
+        const hasManga = data?.myanimelist?.manga &&
+            (!Array.isArray(data.myanimelist.manga) || data.myanimelist.manga.length > 0);
+
+        if (hasAnime) {
+            this.listType = ListType.Anime;
+            raw_list = Array.isArray(data.myanimelist.anime)
+                ? data.myanimelist.anime
+                : [data.myanimelist.anime];
+        } else if (hasManga) {
+            this.listType = ListType.Manga;
+            raw_list = Array.isArray(data.myanimelist.manga)
+                ? data.myanimelist.manga
+                : [data.myanimelist.manga];
+        } else {
+            this.listType = ListType.Anime;
+            throw new Error("Couldn't determine type of list.");
+        }
 
         const statusMap: Record<string, UserStatus> = {
             "Watching": UserStatus.Watching,
@@ -106,6 +106,7 @@ async function fillFromAnilist(seriesList: Series[], listType: ListType): Promis
               coverImage {
                 large
               }
+              description
               idMal
               title {
                 english
@@ -140,7 +141,7 @@ async function fillFromAnilist(seriesList: Series[], listType: ListType): Promis
 
     const statusMap: Record<string, SeriesStatus> = {
         "FINISHED": SeriesStatus.Completed,
-        "RELEASING": SeriesStatus.Airing,
+        "RELEASING": SeriesStatus.Releasing,
         "NOT_YET_RELEASED": SeriesStatus.ToBeReleased,
         "CANCELLED": SeriesStatus.Cancelled,
         "HIATUS": SeriesStatus.Hiatus,
@@ -150,17 +151,47 @@ async function fillFromAnilist(seriesList: Series[], listType: ListType): Promis
         const potentialMatches = anilistMedia.filter(m => Number(m.idMal) === Number(series.malId));
 
         if (potentialMatches.length === 0) return series;
-        if (potentialMatches.length > 1) throw new Error(`Duplicated entries for MAL ID: ${series.malId}`); // NOTE: should be like unreachable
+        if (potentialMatches.length > 1) {
+            const normalisedTitle = normaliseTitle(series.title);
 
+            let candidateList = potentialMatches.filter(m => {
+                const normalisedRomaji = normaliseTitle(m.title?.romaji);
+                const normalisedEnglish = normaliseTitle(m.title?.english);
+
+                return normalisedRomaji === normalisedTitle || normalisedEnglish === normalisedTitle;
+            })
+
+            if (candidateList.length === 0) return series;
+            if (candidateList.length > 1) {
+                console.error("Couldn't find a best match, using first entry!", candidateList);
+            }
+
+            const bestMatch = candidateList[0];
+            return {
+                ...series,
+                anilistId: bestMatch.id,
+                status: statusMap[bestMatch.status],
+                rating: bestMatch.meanScore ?? undefined,
+                coverImage: bestMatch.coverImage?.large ?? undefined,
+                id: bestMatch.id,
+            }
+        };
+
+        const exactMatch = potentialMatches[0];
         return {
             ...series,
-            anilistId: potentialMatches[0].id,
-            status: statusMap[potentialMatches[0].status],
-            rating: potentialMatches[0].meanScore ?? undefined,
-            coverImage: potentialMatches[0].coverImage?.large ?? undefined,
-            id: potentialMatches[0].id, // internal storage id
+            anilistId: exactMatch.id,
+            status: statusMap[exactMatch.status],
+            rating: exactMatch.meanScore ?? undefined,
+            coverImage: exactMatch.coverImage?.large ?? undefined,
+            id: exactMatch.id, // internal storage id
         };
     });
 
     return updatedSeriesList;
 }
+
+function normaliseTitle(title: string | null | undefined): string {
+    if (!title) return '';
+    return title.toLowerCase().replace(/[^a-z0-9]/g, '').trim();
+};
