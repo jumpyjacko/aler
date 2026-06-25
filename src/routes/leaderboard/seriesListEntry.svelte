@@ -9,7 +9,7 @@
     <img
         src={coverImage}
         alt={title}
-        class="rounded-md shadow-sm shrink-0 h-16 w-12 object-cover row-span-2 md:row-span-1"
+        class="rounded-xs shadow-sm shrink-0 h-16 w-12 object-cover row-span-2 md:row-span-1"
     />
 
     <div
