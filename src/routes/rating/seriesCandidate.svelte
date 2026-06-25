@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { stopPropagation } from "svelte/legacy";
+
     let {
         title,
         coverImage,
@@ -8,7 +10,26 @@
         userRating,
         mmrRating,
         ratingDeviation,
+
+        seriesType,
+        malId,
+        anilistId,
     } = $props();
+
+    const malLink = $derived(
+        malId
+            ? "https://myanimelist.net/" +
+                  seriesType.toLowerCase() +
+                  "/" +
+                  malId
+            : undefined,
+    );
+
+    const anilistLink = $derived(
+        anilistId
+            ? "https://anilist.co/" + seriesType.toLowerCase() + "/" + anilistId
+            : undefined,
+    );
 </script>
 
 <div
@@ -30,5 +51,26 @@
         <div class="text-text-faded text-sm">Global: {+rating / 10}</div>
         <div class="text-text-faded text-sm">Yours: {userRating}</div>
         <div class="text-text-faded text-sm text-">Rating: {mmrRating}</div>
+
+        <div class="flex flex-row gap-4 items-center justify-center mt-2">
+            {#if malLink}
+                <a
+                    onclick={(e) => e.stopPropagation()}
+                    href={malLink}
+                    target="_blank"
+                    class="underline text-primary hover:text-primary-dimmed visited:text-purple-800 dark:visited:text-purple-400"
+                    >MyAnimeList</a
+                >
+            {/if}
+            {#if anilistLink}
+                <a
+                    onclick={(e) => e.stopPropagation()}
+                    href={anilistLink}
+                    target="_blank"
+                    class="underline text-primary hover:text-primary-dimmed visited:text-purple-800 dark:visited:text-purple-400"
+                    >AniList</a
+                >
+            {/if}
+        </div>
     </div>
 </div>
