@@ -83,7 +83,7 @@
 
         <button
             onclick={deleteData}
-            class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed"
+            class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed shadow-sm"
             >Delete ALL Data</button
         >
     </div>
