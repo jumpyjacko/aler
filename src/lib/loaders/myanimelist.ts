@@ -1,4 +1,4 @@
-import { SeriesStatus, SeriesType, UserStatus, type Series } from "$lib/Series";
+import { MediaType, SeriesStatus, SeriesType, UserStatus, type Series } from "$lib/Series";
 import { sendQuery } from "$lib/clients/AniList";
 import { type Loader } from ".";
 
@@ -52,8 +52,6 @@ export class MALLoader implements Loader {
         for (const raw_series of raw_list) {
             let status: UserStatus = statusMap[raw_series.my_status];
 
-            if (status === UserStatus.PlanToWatch || status === UserStatus.PlanToRead) continue; // TODO: make this an option maybe? idk
-
             if (status === undefined) throw new Error(`Unknown or missing user status: ${raw_series.my_status}`);
 
             let series: Series;
@@ -75,6 +73,11 @@ export class MALLoader implements Loader {
                     break;
                 case SeriesType.Anime:
                 default:
+                    let mediaType = raw_series.series_type === "TV" ?
+                        MediaType.Anime :
+                        raw_series.series_type === "Movie" ?
+                            MediaType.Movie :
+                            MediaType.Anime;
                     series = {
                         id: +raw_series.series_animedb_id,
                         seriesType: this.listType,
@@ -82,6 +85,7 @@ export class MALLoader implements Loader {
                         title: raw_series.series_title,
                         userStatus: status,
                         userRating: +raw_series.my_score,
+                        mediaType: mediaType,
 
                         mmrRating: 0,
                         ratingDeviation: 0,

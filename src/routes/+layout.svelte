@@ -88,6 +88,10 @@
                 href={resolve("/statistics")}
                 class="text-text-dim hover:text-text">Stats</a
             >
+            <a
+                href={resolve("/settings")}
+                class="text-text-dim hover:text-text">Settings</a
+            >
         </div>
 
         <DarkmodeToggle />

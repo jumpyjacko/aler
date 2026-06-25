@@ -24,6 +24,11 @@ export enum SeriesType {
     Manga = "MANGA",
 }
 
+export enum MediaType {
+    Anime,
+    Movie,
+}
+
 export interface Series extends Candidate {
     id: number, // internal storage id
     seriesType: SeriesType, 
@@ -34,6 +39,7 @@ export interface Series extends Candidate {
     status?: SeriesStatus,
     rating?: number,
     coverImage?: string,
+    mediaType?: MediaType,
 
     userStatus: UserStatus,
     userRating: number,

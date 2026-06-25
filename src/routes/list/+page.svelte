@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type Series } from "$lib/Series";
+    import { MediaType, UserStatus, type Series } from "$lib/Series";
     import { getAllItems } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
 
@@ -13,10 +13,32 @@
     });
 
     async function fetchData() {
+        const excludePTW = localStorage.getItem("excludePlanning") === "true";
+        const excludeOS = localStorage.getItem("excludeOneshots") === "true";
+        const excludeMVS = localStorage.getItem("excludeMovies") === "true";
+
         try {
             const db: Series[] = await getAllItems(globalState.activeList);
             if (db.length === 0) return;
-            seriesList = db.sort((a, b) => b.mmrRating - a.mmrRating);
+            seriesList = db
+                .filter((s) => {
+                    if (
+                        excludePTW &&
+                        (s.userStatus === UserStatus.PlanToWatch ||
+                            s.userStatus === UserStatus.PlanToRead)
+                    ) {
+                        return false;
+                    }
+                    if (excludeOS && s.readChapters! <= 1) {
+                        return false;
+                    }
+                    if (excludeMVS && s.mediaType! === MediaType.Movie) {
+                        return false;
+                    }
+
+                    return true;
+                })
+                .sort((a, b) => b.mmrRating - a.mmrRating);
         } catch (error) {
             console.error("Failed to fetch items:", error);
         }
