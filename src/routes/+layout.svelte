@@ -81,8 +81,8 @@
                 >Rating</a
             >
             <a
-                href={resolve("/leaderboard")}
-                class="text-text-dim hover:text-text">Leaderboard</a
+                href={resolve("/list")}
+                class="text-text-dim hover:text-text">List</a
             >
             <a
                 href={resolve("/statistics")}
