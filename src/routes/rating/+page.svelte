@@ -2,7 +2,7 @@
     import { type Series } from "$lib/Series";
     import { MatchOutcome, type Candidate } from "$lib/rating";
     import { Glicko } from "$lib/rating/glicko";
-    import { getAllItems, putItem } from "$lib/storage/IndexedDB";
+    import { putItem } from "$lib/storage/IndexedDB";
     import { pickTwo } from "$lib/rating/matchmaking";
     import { resolve } from "$app/paths";
     import { onMount } from "svelte";
@@ -27,7 +27,6 @@
     async function fetchData() {
         try {
             seriesList = await getFilteredList();
-
             [series1, series2] = pickTwo(seriesList);
         } catch (error) {
             console.error("Failed to fetch items:", error);
@@ -39,7 +38,7 @@
         await updateEntry(winner, p1);
         await updateEntry(loser, p2);
 
-        seriesList = await getAllItems(miscState.activeList); // TODO: probably not a good idea
+        seriesList = await getFilteredList();
         [series1, series2] = pickTwo(seriesList!);
     }
 
@@ -52,7 +51,7 @@
         await updateEntry(series1!, p1);
         await updateEntry(series2!, p2);
 
-        seriesList = await getAllItems(miscState.activeList); // TODO: probably not a good idea
+        seriesList = await getFilteredList();
         [series1, series2] = pickTwo(seriesList!);
     }
 
