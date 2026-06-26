@@ -22,7 +22,6 @@
     --breakpoint-md: 50rem;
 }
 
-/* Corrected Dark Mode overrides */
 @layer theme {
     * {
         @variant dark {

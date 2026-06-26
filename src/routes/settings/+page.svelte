@@ -1,12 +1,39 @@
 <script lang="ts">
+    import DualSlider from "$lib/components/dualSlider.svelte";
     import Toggle from "$lib/components/toggle.svelte";
+
     import { exclusionSettings } from "$lib/settings.svelte";
+
+    let rangeMin = $state(1);
+    let rangeMax = $state(11);
 </script>
 
 <div class="flex flex-col items-center justify-center mt-50 gap-4">
     <div class="mb-10">
         <h1 class="text-5xl text-text">Settings</h1>
         <p class="text-text-faded">alér | A pairwise media rating system.</p>
+    </div>
+
+    <div class="w-full px-4 md:px-0 md:max-w-lg">
+        <div class="mb-2">
+            <h1 class="text-2xl">Score Range</h1>
+            <p class="text-text-faded">
+                Limit 'Rating' page to a specific range
+            </p>
+        </div>
+
+        <div class="flex flex-row justify-center gap-4 text-center w-full">
+            <p>{rangeMin}</p>
+            -
+            <p>{rangeMax - 1}</p>
+        </div>
+
+        <DualSlider
+            min={1}
+            max={11}
+            bind:start={rangeMin}
+            bind:end={rangeMax}
+        />
     </div>
 
     <div class="w-full px-4 md:px-0 md:max-w-lg space-y-3">
