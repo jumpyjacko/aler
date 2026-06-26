@@ -20,7 +20,7 @@ function getInitialValue(key: string, defaultValue: boolean): boolean {
     return stored !== null ? stored === "true" : defaultValue;
 }
 
-export const settings = $state<SettingItem[]>([
+export const exclusionSettings = $state<SettingItem[]>([
     {
         key: "excludePlanning",
         title: "Exclude 'Plan To Watch/Read' status",
@@ -36,7 +36,7 @@ export const settings = $state<SettingItem[]>([
     {
         key: "excludeOneshots",
         title: "Exclude Oneshots",
-        description: "Excludes oneshots from being displayed.",
+        description: "Excludes oneshots (where the user only has one chapter read) from being displayed.",
         checked: getInitialValue("excludeOneshots", DEFAULTS.excludeOneshots)
     },
     {
@@ -54,7 +54,7 @@ export let miscState = $state({
 export function initSettings() {
     if (!browser) return;
 
-    settings.forEach(setting => {
+    exclusionSettings.forEach(setting => {
         if (localStorage.getItem(setting.key) === null) {
             localStorage.setItem(setting.key, String(setting.checked));
         }
@@ -64,7 +64,7 @@ export function initSettings() {
 if (browser) {
     $effect.root(() => {
         $effect(() => {
-            settings.forEach(setting => {
+            exclusionSettings.forEach(setting => {
                 localStorage.setItem(setting.key, String(setting.checked));
             });
         });
