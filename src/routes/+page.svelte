@@ -42,8 +42,13 @@
     }
 
     async function deleteData() {
+        const proceed = confirm(
+            "This will delete all data (Lists, Ratings, Settings)",
+        );
+        if (!proceed) return;
         result = 0;
         wipeDatabase();
+        localStorage.clear();
         window.location.reload();
     }
 
