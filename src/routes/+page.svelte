@@ -3,14 +3,13 @@
     import { type Series } from "$lib/Series";
     import { getAllItems, wipeDatabase } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
-    import { initSettings, miscState } from "$lib/settings.svelte";
+    import { miscState } from "$lib/settings.svelte";
 
     let files: FileList | null = $state(null);
     let result: number = $state(0);
     let isLoading: boolean = $state(false);
 
     onMount(async () => {
-        initSettings();
         await fetchData();
     });
 

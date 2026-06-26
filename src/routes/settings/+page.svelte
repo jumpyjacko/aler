@@ -2,10 +2,7 @@
     import DualSlider from "$lib/components/dualSlider.svelte";
     import Toggle from "$lib/components/toggle.svelte";
 
-    import { exclusionSettings } from "$lib/settings.svelte";
-
-    let rangeMin = $state(1);
-    let rangeMax = $state(11);
+    import { exclusionSettings, ratingRange } from "$lib/settings.svelte";
 </script>
 
 <div class="flex flex-col items-center justify-center mt-50 gap-4">
@@ -23,16 +20,16 @@
         </div>
 
         <div class="flex flex-row justify-center gap-4 text-center w-full">
-            <p>{rangeMin}</p>
+            <p>{ratingRange.start}</p>
             -
-            <p>{rangeMax - 1}</p>
+            <p>{ratingRange.end - 1}</p>
         </div>
 
         <DualSlider
             min={1}
             max={11}
-            bind:start={rangeMin}
-            bind:end={rangeMax}
+            bind:start={ratingRange.start}
+            bind:end={ratingRange.end}
         />
     </div>
 
