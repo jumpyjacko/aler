@@ -30,6 +30,18 @@
         }
     }
 
+    function handleImportClicked(e: MouseEvent) {
+        if (result !== 0) {
+            const proceed = confirm(
+                `This will override your ${miscState.activeList === "animelist" ? "anime" : "manga"} list and all its data. Are you sure?`,
+            );
+
+            if (!proceed) {
+                e.preventDefault();
+            }
+        }
+    }
+
     async function deleteData() {
         result = 0;
         wipeDatabase();
@@ -64,6 +76,7 @@
         cursor-pointer inline-flex items-center justify-center px-4 py-2
         bg-primary text-primary-faded font-medium rounded-full shadow-sm
         transition-colors duration-200"
+            tabindex="-1"
         >
             <span>Import list</span>
             {#if isLoading}
@@ -77,6 +90,7 @@
             <input
                 type="file"
                 bind:files
+                onclick={handleImportClicked}
                 onchange={onFileSelected}
                 class="sr-only"
             />
