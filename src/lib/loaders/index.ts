@@ -3,7 +3,7 @@ import { getAllItems, putItem } from "$lib/storage/IndexedDB";
 import { MALLoader } from "./myanimelist";
 
 export interface Loader {
-    readonly supportedExtension: string;
+    readonly supportedExtensions: string[];
     listType: SeriesType,
 
     load(file: File): Promise<Series[]>;
@@ -16,13 +16,11 @@ const registeredLoaders: Loader[] = [
 ];
 
 export async function getList(file: File): Promise<Series[]> {
-    const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
-
-    const matchingLoader = registeredLoaders.find( // TODO: make this support MALExport maybe?
-        (loader) => loader.supportedExtension === extension
+    const matchingLoader = registeredLoaders.find((loader) =>
+        loader.supportedExtensions.some((ext) => file.name.toLowerCase().endsWith(ext.toLowerCase()))
     );
 
-    if (!matchingLoader) throw new Error(`No registered loader for filetype: ${extension}`);
+    if (!matchingLoader) throw new Error("No registered loader for filetype");
 
     let seriesList = await matchingLoader.load(file);
 
