@@ -98,7 +98,7 @@
 {#if series1 && series2}
     <div
         class="
-            flex flex-col justify-around px-4 divide-y mt-10
+            flex flex-col justify-around px-4 divide-y md:mt-10
             md:flex-row md:w-full md:divide-y-0 md:divide-x divide-text-faded
         "
     >
@@ -129,6 +129,6 @@
     </div>
 {/if}
 
-<footer class="text-sm text-text-faded fixed bottom-0 p-2">
+<footer class="text-sm text-text-faded pt-8 md:pt-2 md:fixed bottom-0 p-2">
     Median rating deviation: {medianRD}, aiming for around &lt;100
 </footer>

@@ -80,17 +80,15 @@
             <a href={resolve("/rating")} class="text-text-dim hover:text-text"
                 >Rating</a
             >
-            <a
-                href={resolve("/list")}
-                class="text-text-dim hover:text-text">List</a
+            <a href={resolve("/list")} class="text-text-dim hover:text-text"
+                >List</a
             >
             <a
                 href={resolve("/statistics")}
                 class="text-text-dim hover:text-text">Stats</a
             >
-            <a
-                href={resolve("/settings")}
-                class="text-text-dim hover:text-text">Settings</a
+            <a href={resolve("/settings")} class="text-text-dim hover:text-text"
+                >Settings</a
             >
         </div>
 
