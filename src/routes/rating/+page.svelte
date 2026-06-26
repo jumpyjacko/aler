@@ -114,12 +114,12 @@
     <div class="flex flex-row gap-4 w-full justify-center mt-10">
         <button
             onclick={handleDraw}
-            class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm"
+            class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm transition-colors duration-100"
             >Draw</button
         >
         <button
             onclick={handleSkip}
-            class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed shadow-sm"
+            class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed shadow-sm transition-colors duration-100"
             >Skip</button
         >
     </div>
