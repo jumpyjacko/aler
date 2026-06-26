@@ -5,7 +5,7 @@
     import { exclusionSettings, ratingRange } from "$lib/settings.svelte";
 </script>
 
-<div class="flex flex-col items-center justify-center mt-50 gap-4">
+<div class="flex flex-col items-center justify-center mt-20 md:mt-50 gap-4 mb-20">
     <div class="mb-10">
         <h1 class="text-5xl text-text">Settings</h1>
         <p class="text-text-faded">alér | A pairwise media rating system.</p>
@@ -15,7 +15,7 @@
         <div class="mb-2">
             <h1 class="text-2xl">Score Range</h1>
             <p class="text-text-faded">
-                Limit 'Rating' page to a specific range
+                Limit rating and list to a specific range
             </p>
         </div>
 
