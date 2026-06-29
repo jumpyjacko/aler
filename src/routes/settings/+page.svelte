@@ -3,7 +3,19 @@
     import Toggle from "$lib/components/toggle.svelte";
 
     import { exclusionSettings, ratingRange } from "$lib/settings.svelte";
+    import { formatBytes, getIndexedDBUsage } from "$lib/storage";
     import { clearStore, wipeDatabase } from "$lib/storage/IndexedDB";
+    import { onMount } from "svelte";
+
+    let storageEstimate: StorageEstimate | null = $state(null);
+
+    onMount(async () => {
+        try {
+            storageEstimate = await getIndexedDBUsage();
+        } catch (err) {
+            console.error("An error occurred:", err);
+        }
+    });
 
     async function deleteData() {
         const proceed = confirm(
@@ -16,19 +28,15 @@
     }
 
     async function deleteAL() {
-        const proceed = confirm(
-            "This will delete your local anime list.",
-        );
+        const proceed = confirm("This will delete your local anime list.");
         if (!proceed) return;
         await clearStore("animelist");
         localStorage.clear();
         window.location.reload();
     }
-    
+
     async function deleteML() {
-        const proceed = confirm(
-            "This will delete your local manga list.",
-        );
+        const proceed = confirm("This will delete your local manga list.");
         if (!proceed) return;
         await clearStore("mangalist");
         localStorage.clear();
@@ -96,6 +104,9 @@
             <h1 class="text-2xl">Data and Storage</h1>
             <p class="text-text-faded">Manage your locally stored data</p>
         </div>
+        {#if storageEstimate && storageEstimate.usage && storageEstimate.quota}
+            <div>Used <span class="cursor-help" title="Can be inaccurate on Firefox and Safari">{formatBytes(storageEstimate.usage)}</span> of available storage ({formatBytes(storageEstimate.quota)})</div>
+        {/if}
         <div class="flex flex-row justify-center gap-2">
             <button
                 onclick={deleteAL}

@@ -38,3 +38,19 @@ export async function getFilteredList(): Promise<Series[]> {
         })
         .sort((a, b) => b.mmrRating - a.mmrRating);
 }
+
+export async function getIndexedDBUsage(): Promise<StorageEstimate> {
+    if (!navigator.storage || !navigator.storage.estimate) {
+        throw new Error("Storage Manager API is not supported by this browser.");
+    }
+    return await navigator.storage.estimate();
+}
+
+export function formatBytes(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
+}
