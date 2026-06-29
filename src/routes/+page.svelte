@@ -41,17 +41,6 @@
         }
     }
 
-    async function deleteData() {
-        const proceed = confirm(
-            "This will delete all data (Lists, Ratings, Settings)",
-        );
-        if (!proceed) return;
-        result = 0;
-        wipeDatabase();
-        localStorage.clear();
-        window.location.reload();
-    }
-
     async function fetchData() {
         try {
             const db: Series[] = await getAllItems(miscState.activeList);
@@ -82,7 +71,7 @@
         transition-colors duration-200"
             tabindex="-1"
         >
-            <span>Import list</span>
+            <span>Import MyAnimeList</span>
             {#if isLoading}
                 <div class="flex items-center justify-center pl-2">
                     <div
@@ -99,12 +88,6 @@
                 class="sr-only"
             />
         </label>
-
-        <button
-            onclick={deleteData}
-            class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed shadow-sm transition-colors duration-100"
-            >Delete ALL Data</button
-        >
     </div>
 
     <p>
