@@ -4,7 +4,7 @@
 
     import { exclusionSettings, ratingRange } from "$lib/settings.svelte";
     import { formatBytes, getIndexedDBUsage } from "$lib/storage";
-    import { clearStore, wipeDatabase } from "$lib/storage/IndexedDB";
+    import { clearStore, exportDatabase, wipeDatabase } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
 
     let storageEstimate: StorageEstimate | null = $state(null);
@@ -41,6 +41,14 @@
         await clearStore("mangalist");
         localStorage.clear();
         window.location.reload();
+    }
+
+    async function exportDB() {
+        await exportDatabase();
+    }
+
+    async function importDB() {
+        // await importDatabase();
     }
 </script>
 
@@ -107,7 +115,7 @@
         {#if storageEstimate && storageEstimate.usage && storageEstimate.quota}
             <div>Used <span class="cursor-help" title="Can be inaccurate on Firefox and Safari">{formatBytes(storageEstimate.usage)}</span> of available storage ({formatBytes(storageEstimate.quota)})</div>
         {/if}
-        <div class="flex flex-row justify-center gap-2">
+        <div class="flex flex-col md:flex-row justify-center gap-2">
             <button
                 onclick={deleteAL}
                 class="px-4 py-2 rounded-full bg-primary text-primary-faded hover:bg-secondary-dimmed hover:text-secondary shadow-sm transition-colors duration-100"
@@ -122,6 +130,18 @@
                 onclick={deleteData}
                 class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed hover:bg-secondary hover:text-secondary-dimmed shadow-sm transition-colors duration-100"
                 >Delete ALL Data</button
+            >
+        </div>
+        <div class="flex flex-col md:flex-row justify-center gap-2 mt-5 md:mt-0">
+            <button
+                onclick={exportDB}
+                class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm transition-colors duration-100"
+                >Export Database</button
+            >
+            <button
+                onclick={importDB}
+                class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed shadow-sm transition-colors duration-100"
+                >Import Database</button
             >
         </div>
     </div>

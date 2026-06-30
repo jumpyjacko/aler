@@ -41,7 +41,7 @@ export async function getItem<T>(storeName: string, key: IDBValidKey): Promise<T
 
     return new Promise((resolve, reject) => {
         const request = store.get(key);
-        
+
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
     });
@@ -49,7 +49,7 @@ export async function getItem<T>(storeName: string, key: IDBValidKey): Promise<T
 
 export async function getAllItems<T>(storeName: string): Promise<T[]> {
     const { store } = await getStore(storeName);
-    
+
     return new Promise((resolve, reject) => {
         const request = store.getAll();
 
@@ -128,3 +128,52 @@ export function wipeDatabase(): Promise<void> {
 //
 //     return null;
 // }
+
+interface ExportedStoreItem {
+    key: any;
+    value: any;
+}
+
+interface ExportedDatabase {
+    databaseName: string;
+    version: number;
+    createdAt: string;
+    data: {
+        [storeName: string]: ExportedStoreItem[];
+    };
+}
+
+export async function exportDatabase(): Promise<void> {
+    const backup: ExportedDatabase = {
+        databaseName: DB_NAME,
+        version: DB_VERSION,
+        createdAt: new Date().toISOString(),
+        data: {}
+    }
+
+    const storeNames: string[] = await getAllStores();
+
+    for (const storeName of storeNames) {
+        try {
+            const store = await getAllItems<ExportedStoreItem>(storeName);
+            console.log(store);
+            backup.data[storeName] = store;
+        } catch {
+            backup.data[storeName] = [];
+        }
+    }
+
+    const jsonString = JSON.stringify(backup, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${backup.databaseName}_backup_${new Date().toISOString().slice(0, 10)}.json`;
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
