@@ -4,7 +4,6 @@
     import { Glicko } from "$lib/rating/glicko";
     import { putItem } from "$lib/storage/IndexedDB";
     import { pickTwo } from "$lib/rating/matchmaking";
-    import { resolve } from "$app/paths";
     import { onMount } from "svelte";
 
     import SeriesCandidate from "./seriesCandidate.svelte";
@@ -20,6 +19,8 @@
 
     let medianRD: number = $state(0);
 
+    let loading: boolean = $state(true);
+
     onMount(async () => {
         fetchData();
     });
@@ -30,6 +31,8 @@
             [series1, series2] = pickTwo(seriesList);
         } catch (error) {
             console.error("Failed to fetch items:", error);
+        } finally {
+            loading = false;
         }
     }
 
@@ -95,40 +98,47 @@
     });
 </script>
 
-{#if series1 && series2}
-    <div
-        class="
+{#if !loading}
+    {#if series1 && series2}
+        <div
+            class="
             flex flex-col justify-around px-4 divide-y md:mt-10
             md:flex-row md:w-full md:divide-y-0 md:divide-x divide-text-faded
         "
-    >
-        <button onclick={() => handleVote(series1!, series2!)} class="w-full cursor-pointer">
-            <SeriesCandidate {...series1} />
-        </button>
-        <button onclick={() => handleVote(series2!, series1!)} class="w-full cursor-pointer">
-            <SeriesCandidate {...series2} />
-        </button>
-    </div>
+        >
+            <button
+                onclick={() => handleVote(series1!, series2!)}
+                class="w-full cursor-pointer"
+            >
+                <SeriesCandidate {...series1} />
+            </button>
+            <button
+                onclick={() => handleVote(series2!, series1!)}
+                class="w-full cursor-pointer"
+            >
+                <SeriesCandidate {...series2} />
+            </button>
+        </div>
 
-    <div class="flex flex-row gap-4 w-full justify-center mt-10">
-        <button
-            onclick={handleDraw}
-            class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm cursor-pointer transition-colors duration-100"
-            >Draw</button
+        <div class="flex flex-row gap-4 w-full justify-center mt-10">
+            <button
+                onclick={handleDraw}
+                class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm cursor-pointer transition-colors duration-100"
+                >Draw</button
+            >
+            <button
+                onclick={handleSkip}
+                class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed shadow-sm cursor-pointer transition-colors duration-100"
+                >Skip</button
+            >
+        </div>
+
+        <footer
+            class="text-sm text-text-faded pt-8 md:pt-2 md:fixed bottom-0 p-2"
         >
-        <button
-            onclick={handleSkip}
-            class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed shadow-sm cursor-pointer transition-colors duration-100"
-            >Skip</button
-        >
-    </div>
-{:else}
-    <div class="text-lg w-full text-center">
-        No list loaded! Go to <a href={resolve("/")} class="underline">home</a> and
-        load a list.
-    </div>
+            Median rating deviation: {medianRD}, aiming for around &lt;100
+        </footer>
+    {:else}
+        <div class="text-lg w-full text-center mt-10">No list loaded!</div>
+    {/if}
 {/if}
-
-<footer class="text-sm text-text-faded pt-8 md:pt-2 md:fixed bottom-0 p-2">
-    Median rating deviation: {medianRD}, aiming for around &lt;100
-</footer>
