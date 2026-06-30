@@ -32,7 +32,7 @@
     function handleImportClicked(e: MouseEvent) {
         if (result !== 0) {
             const proceed = confirm(
-                `This will override your ${miscState.activeList === "animelist" ? "anime" : "manga"} list and all its data. Are you sure?`,
+                `This could override your ${miscState.activeList === "animelist" ? "anime" : "manga"} list. Are you sure?`,
             );
 
             if (!proceed) {

@@ -7,14 +7,17 @@ import { XMLParser } from "fast-xml-parser";
 export class MALLoader implements Loader {
     readonly supportedExtensions: string[] = [".xml", ".xml.gz"];
     listType: SeriesType = SeriesType.Anime;
+    file?: File;
 
-    async load(file: File): Promise<Series[]> {
-        let fileToParse = file;
-        if (file.name.endsWith('.gz')) {
-            const decompressedStream = file.stream().pipeThrough(new DecompressionStream("gzip"));
+    async load(): Promise<Series[]> {
+        if (!this.file) throw new Error("No file?");
+
+        let fileToParse = this.file;
+        if (this.file.name.endsWith('.gz')) {
+            const decompressedStream = this.file.stream().pipeThrough(new DecompressionStream("gzip"));
             const decompressedBlob = await new Response(decompressedStream).blob();
             
-            fileToParse = new File([decompressedBlob], file.name.replace('.gz', ''), { type: 'text/xml' });
+            fileToParse = new File([decompressedBlob], this.file.name.replace('.gz', ''), { type: 'text/xml' });
         }
 
         const raw = await fileToParse.text();
