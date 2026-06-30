@@ -40,7 +40,7 @@
 </svelte:head>
 
 <nav
-    class="sticky left-0 top-0 w-full flex flex-col md:flex-row px-6 md:px-8 py-2 justify-between bg-surface border-b border-text-faded transition-colors duration-100"
+    class="sticky left-0 top-0 w-full flex flex-col md:flex-row px-6 md:px-8 py-2 z-100 justify-between bg-surface border-b border-text-faded transition-colors duration-100"
 >
     <div class="flex flex-row gap-4 items-center">
         <a href={resolve("/")} class="font-bold">alér</a>
