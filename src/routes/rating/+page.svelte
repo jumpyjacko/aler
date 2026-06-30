@@ -102,7 +102,7 @@
     {#if series1 && series2}
         <div
             class="
-            flex flex-col justify-around px-4 divide-y md:mt-10
+            flex flex-col justify-around px-4 divide-y mt-[5vh]
             md:flex-row md:w-full md:divide-y-0 md:divide-x divide-text-faded
         "
         >
@@ -120,7 +120,7 @@
             </button>
         </div>
 
-        <div class="flex flex-row gap-4 w-full justify-center mt-10">
+        <div class="flex flex-row gap-4 w-full justify-center md:mt-10 mb-16">
             <button
                 onclick={handleDraw}
                 class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm cursor-pointer transition-colors duration-100"
@@ -133,9 +133,7 @@
             >
         </div>
 
-        <footer
-            class="text-sm text-text-faded pt-8 md:pt-2 md:fixed bottom-0 p-2"
-        >
+        <footer class="text-sm text-text-faded fixed bottom-0 p-2 bg-surface">
             Median rating deviation: {medianRD}, aiming for around &lt;100
         </footer>
     {:else}
