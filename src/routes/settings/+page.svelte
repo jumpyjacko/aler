@@ -143,17 +143,17 @@
         <div class="flex flex-col md:flex-row justify-center gap-2">
             <button
                 onclick={deleteAL}
-                class="px-4 py-2 rounded-full bg-primary text-primary-faded hover:bg-secondary-dimmed hover:text-secondary shadow-sm transition-colors duration-100"
+                class="px-4 py-2 cursor-pointer rounded-full bg-primary text-primary-faded hover:bg-secondary-dimmed hover:text-secondary shadow-sm transition-colors duration-100"
                 >Delete Anime List</button
             >
             <button
                 onclick={deleteML}
-                class="px-4 py-2 rounded-full bg-primary text-primary-faded hover:bg-secondary-dimmed hover:text-secondary shadow-sm transition-colors duration-100"
+                class="px-4 py-2 cursor-pointer rounded-full bg-primary text-primary-faded hover:bg-secondary-dimmed hover:text-secondary shadow-sm transition-colors duration-100"
                 >Delete Manga List</button
             >
             <button
                 onclick={deleteData}
-                class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed hover:bg-secondary hover:text-secondary-dimmed shadow-sm transition-colors duration-100"
+                class="px-4 py-2 cursor-pointer rounded-full bg-primary-faded text-primary-dimmed hover:bg-secondary hover:text-secondary-dimmed shadow-sm transition-colors duration-100"
                 >Delete ALL Data</button
             >
         </div>
@@ -162,7 +162,7 @@
         >
             <button
                 onclick={exportDB}
-                class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm transition-colors duration-100"
+                class="px-4 py-2 cursor-pointer rounded-full bg-primary text-primary-faded shadow-sm transition-colors duration-100"
                 >Export Database</button
             >
             <label

@@ -102,10 +102,10 @@
             md:flex-row md:w-full md:divide-y-0 md:divide-x divide-text-faded
         "
     >
-        <button onclick={() => handleVote(series1!, series2!)} class="w-full">
+        <button onclick={() => handleVote(series1!, series2!)} class="w-full cursor-pointer">
             <SeriesCandidate {...series1} />
         </button>
-        <button onclick={() => handleVote(series2!, series1!)} class="w-full">
+        <button onclick={() => handleVote(series2!, series1!)} class="w-full cursor-pointer">
             <SeriesCandidate {...series2} />
         </button>
     </div>
@@ -113,12 +113,12 @@
     <div class="flex flex-row gap-4 w-full justify-center mt-10">
         <button
             onclick={handleDraw}
-            class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm transition-colors duration-100"
+            class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm cursor-pointer transition-colors duration-100"
             >Draw</button
         >
         <button
             onclick={handleSkip}
-            class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed shadow-sm transition-colors duration-100"
+            class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed shadow-sm cursor-pointer transition-colors duration-100"
             >Skip</button
         >
     </div>
