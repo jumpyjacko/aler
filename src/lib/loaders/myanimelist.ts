@@ -1,5 +1,5 @@
 import { MediaType, SeriesStatus, SeriesType, UserStatus, type Series } from "$lib/Series";
-import { sendQuery } from "$lib/clients/AniList";
+import { sendQuery } from "$lib/clients/AniList.client";
 import { type Loader } from ".";
 
 import { XMLParser } from "fast-xml-parser";
@@ -206,7 +206,6 @@ async function fillFromAnilist(seriesList: Series[], listType: SeriesType): Prom
             status: statusMap[exactMatch.status],
             rating: exactMatch.meanScore ?? undefined,
             coverImage: exactMatch.coverImage?.large ?? undefined,
-            id: exactMatch.id, // internal storage id
         };
     });
 

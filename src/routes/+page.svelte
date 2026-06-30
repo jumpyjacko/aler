@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getList } from "$lib/loaders";
     import { type Series } from "$lib/Series";
-    import { getAllItems, wipeDatabase } from "$lib/storage/IndexedDB";
+    import { getAllItems } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
     import { miscState } from "$lib/settings.svelte";
 
