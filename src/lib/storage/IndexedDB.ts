@@ -177,3 +177,23 @@ export async function exportDatabase(): Promise<void> {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
 }
+
+export async function importDatabase(file: File): Promise<void> {
+    const text = await file.text();
+    const backup: ExportedDatabase = JSON.parse(text);
+
+    if (backup.databaseName !== DB_NAME) throw new Error("Backup file database name mismatch.");
+
+    const storeNames: string[] = await getAllStores();
+    const storesToImport = Object.keys(backup.data).filter(name => storeNames.includes(name));
+
+    for (const storeToImport of storesToImport) {
+        const backupStore = backup.data[storeToImport];
+        if (backupStore.length === 0) continue;
+
+        await clearStore(storeToImport);
+        for (const item of backupStore) {
+            await putItem(storeToImport, item);
+        }
+    }
+}

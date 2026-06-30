@@ -4,7 +4,12 @@
 
     import { exclusionSettings, ratingRange } from "$lib/settings.svelte";
     import { formatBytes, getIndexedDBUsage } from "$lib/storage";
-    import { clearStore, exportDatabase, wipeDatabase } from "$lib/storage/IndexedDB";
+    import {
+        clearStore,
+        exportDatabase,
+        importDatabase,
+        wipeDatabase,
+    } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
 
     let storageEstimate: StorageEstimate | null = $state(null);
@@ -44,11 +49,24 @@
     }
 
     async function exportDB() {
-        await exportDatabase();
+        try {
+            await exportDatabase();
+        } catch (err) {
+            console.error(err);
+            alert("Export failed. Check developer console.");
+        }
     }
 
+    let files: FileList | null = $state(null);
     async function importDB() {
-        // await importDatabase();
+        if (!files || files.length === 0) return;
+        try {
+            await importDatabase(files[0]);
+            window.location.reload();
+        } catch (err) {
+            console.error(err);
+            alert("Import failed. Check developer console.");
+        }
     }
 </script>
 
@@ -113,7 +131,14 @@
             <p class="text-text-faded">Manage your locally stored data</p>
         </div>
         {#if storageEstimate && storageEstimate.usage && storageEstimate.quota}
-            <div>Used <span class="cursor-help" title="Can be inaccurate on Firefox and Safari">{formatBytes(storageEstimate.usage)}</span> of available storage ({formatBytes(storageEstimate.quota)})</div>
+            <div>
+                Used <span
+                    class="cursor-help"
+                    title="Can be inaccurate on Firefox and Safari"
+                    >{formatBytes(storageEstimate.usage)}</span
+                >
+                of available storage ({formatBytes(storageEstimate.quota)})
+            </div>
         {/if}
         <div class="flex flex-col md:flex-row justify-center gap-2">
             <button
@@ -132,17 +157,30 @@
                 >Delete ALL Data</button
             >
         </div>
-        <div class="flex flex-col md:flex-row justify-center gap-2 mt-5 md:mt-0">
+        <div
+            class="flex flex-col md:flex-row justify-center gap-2 mt-5 md:mt-0"
+        >
             <button
                 onclick={exportDB}
                 class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm transition-colors duration-100"
                 >Export Database</button
             >
-            <button
-                onclick={importDB}
-                class="px-4 py-2 rounded-full bg-primary-faded text-primary-dimmed shadow-sm transition-colors duration-100"
-                >Import Database</button
+            <label
+                class="
+                cursor-pointer inline-flex items-center justify-center px-4 py-2
+                bg-primary-faded text-primary-dimmed font-medium rounded-full shadow-sm
+                transition-colors duration-200"
+                tabindex="-1"
             >
+                <span>Import Database</span>
+
+                <input
+                    type="file"
+                    bind:files
+                    onchange={importDB}
+                    class="sr-only"
+                />
+            </label>
         </div>
     </div>
 </div>
