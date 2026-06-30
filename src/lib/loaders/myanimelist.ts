@@ -129,7 +129,6 @@ async function fillFromAnilist(seriesList: Series[], listType: SeriesType): Prom
               coverImage {
                 large
               }
-              description
               idMal
               title {
                 english
