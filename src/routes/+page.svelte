@@ -56,7 +56,7 @@
     });
 </script>
 
-<div class="flex flex-col items-center justify-center mt-50 gap-4">
+<div class="flex flex-col items-center justify-center mt-[20vh] gap-4">
     <div class="mb-5">
         <h1 class="text-5xl">alér</h1>
         <p class="text-text-faded mb-2">anime list elo ratings</p>
