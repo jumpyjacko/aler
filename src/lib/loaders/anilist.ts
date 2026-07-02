@@ -51,8 +51,7 @@ export class AniListLoader {
 
         while (true) {
             try {
-                console.log(`Fetching page ${variables.page} of ${variables.username}`);
-                console.log(JSON.stringify(variables));
+                console.log(`Fetching page ${variables.page} of ${variables.userName}`);
                 const response = await sendQuery(query, JSON.stringify(variables));
                 const nextPage = response?.data?.Page?.pageInfo?.hasNextPage || false;
                 if (!nextPage) break;
