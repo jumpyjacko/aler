@@ -9,8 +9,6 @@ export interface Loader {
     file?: File,
 
     load(): Promise<Series[]>;
-
-    convertToAnilist?(): boolean; // TODO: define a better return type here
 }
 
 const registeredLoaders: Loader[] = [
