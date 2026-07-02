@@ -70,7 +70,7 @@
         <p class="text-lg">A pairwise media rating system.</p>
     </div>
 
-    <div class="flex flex-row gap-2 align-middle items-center mb-4">
+    <div class="flex flex-col-reverse md:flex-row gap-2 align-middle items-center mb-4">
         <label
             class="
         cursor-pointer inline-flex items-center justify-center px-4 py-2
@@ -97,6 +97,7 @@
         </label>
 
         <span class="text-text-faded">or</span>
+
         <form onsubmit={handleALSubmit}>
             <div class="relative">
                 <input
@@ -121,7 +122,7 @@
                     class:max-h-12={isInputFocused}
                     class:max-h-0={!isInputFocused}
                 >
-                    Lists over 1000 entries may take a while
+                    Lists over 1000 entries may take a while (check dev console)
                 </div>
             </div>
         </form>
