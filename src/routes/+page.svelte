@@ -70,7 +70,9 @@
         <p class="text-lg">A pairwise media rating system.</p>
     </div>
 
-    <div class="flex flex-col-reverse md:flex-row gap-2 align-middle items-center mb-4">
+    <div
+        class="flex flex-col-reverse md:flex-row gap-2 align-middle items-center mb-4"
+    >
         <label
             class="
         cursor-pointer inline-flex items-center justify-center px-4 py-2
@@ -103,8 +105,8 @@
                 <input
                     type="text"
                     bind:value={username}
-                    onfocus={() => isInputFocused = true}
-                    onblur={() => isInputFocused = false}
+                    onfocus={() => (isInputFocused = true)}
+                    onblur={() => (isInputFocused = false)}
                     class="bg-surface border-t-0 border-x-0 border-text-faded w-48 pr-8"
                     placeholder="AniList Username"
                 />
@@ -118,7 +120,7 @@
                     </div>
                 {/if}
                 <div
-                    class="absolute left-0 right-0 top-full overflow-hidden transition-all duration-300 ease-in-out text-text-faded text-xs text-center pointer-events-none"
+                    class="absolute left-0 right-0 top-full bg-surface overflow-hidden transition-all duration-300 ease-in-out text-text-faded text-xs text-center pointer-events-none"
                     class:max-h-12={isInputFocused}
                     class:max-h-0={!isInputFocused}
                 >
