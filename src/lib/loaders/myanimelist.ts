@@ -1,5 +1,6 @@
 import { MediaType, SeriesStatus, SeriesType, UserStatus, type Series } from "$lib/Series";
 import { sendQuery } from "$lib/clients/AniList.client";
+import { getAllItems } from "$lib/storage/IndexedDB";
 import { type Loader } from ".";
 
 import { XMLParser } from "fast-xml-parser";
@@ -16,7 +17,7 @@ export class MALLoader implements Loader {
         if (this.file.name.endsWith('.gz')) {
             const decompressedStream = this.file.stream().pipeThrough(new DecompressionStream("gzip"));
             const decompressedBlob = await new Response(decompressedStream).blob();
-            
+
             fileToParse = new File([decompressedBlob], this.file.name.replace('.gz', ''), { type: 'text/xml' });
         }
 
@@ -139,7 +140,14 @@ async function fillFromAnilist(seriesList: Series[], listType: SeriesType): Prom
         }
     `;
 
-    const allMalIds = seriesList.map(s => s.malId);
+    const currentList: Series[] = listType === SeriesType.Anime ?
+        await getAllItems("animelist") :
+        await getAllItems("mangalist");
+
+    const existingMalIds = new Set(currentList.map(s => s.malId));
+    const allMalIds = seriesList.map(s => s.malId).filter((id): id is number =>
+        id !== undefined && !existingMalIds.has(id)
+    );
     const CHUNK_SIZE = 50;
     const anilistMedia: any[] = [];
 
