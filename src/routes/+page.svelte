@@ -41,7 +41,9 @@
     }
 
     async function handleALSubmit() {
+        isLoading = true;
         await getAnilistLists(username);
+        isLoading = false;
         window.location.reload();
     }
 
@@ -95,12 +97,21 @@
 
         <span class="text-text-faded">or</span>
         <form onsubmit={handleALSubmit}>
-            <input
-                type="text"
-                bind:value={username}
-                class="bg-surface border-t-0 border-x-0 border-text-faded w-48"
-                placeholder="AniList Username"
-            />
+            <div class="relative">
+                <input
+                    type="text"
+                    bind:value={username}
+                    class="bg-surface border-t-0 border-x-0 border-text-faded w-48 pr-8"
+                    placeholder="AniList Username"
+                />
+                {#if isLoading}
+                    <div class="absolute right-1 top-1/2 -translate-y-1/2 flex items-center z-10">
+                        <div
+                            class="animate-spin rounded-full h-4 w-4 border-2 border-primary-faded border-t-primary-dimmed"
+                        ></div>
+                    </div>
+                {/if}
+            </div>
         </form>
     </div>
 
