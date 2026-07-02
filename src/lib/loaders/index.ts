@@ -1,12 +1,12 @@
 import { SeriesType, type Series } from "$lib/Series";
-import { getAllItems, putItem } from "$lib/storage/IndexedDB";
+import { addItemIfNotExists } from "$lib/storage/IndexedDB";
+import { AniListLoader } from "./anilist";
 import { MALLoader } from "./myanimelist";
 
 export interface Loader {
     readonly supportedExtensions: string[];
     listType: SeriesType,
     file?: File,
-    username?: string,
 
     load(): Promise<Series[]>;
 
@@ -17,7 +17,7 @@ const registeredLoaders: Loader[] = [
     new MALLoader,
 ];
 
-export async function getList(file?: File, username?: string): Promise<Series[]> {
+export async function getList(file?: File): Promise<void> {
     let matchingLoader: Loader;
     if (file) {
         const loader = registeredLoaders.find((loader) =>
@@ -27,8 +27,6 @@ export async function getList(file?: File, username?: string): Promise<Series[]>
         if (!loader) throw new Error("No registered loader for filetype");
         matchingLoader = loader;
         matchingLoader.file = file;
-    } else if (username) { 
-        const loader = []
     } else {
         throw new Error("Failed to detect a correct loader");
     }
@@ -45,8 +43,15 @@ export async function getList(file?: File, username?: string): Promise<Series[]>
     }
 
     for (const series of seriesList) {
-        await putItem(store, series);
+        await addItemIfNotExists(store, series);
     }
+}
 
-    return getAllItems(store);
+export async function getAnilistLists(username: string): Promise<void> {
+    if (username.length <= 0) throw new Error("No username provided");
+
+    const loader = new AniListLoader;
+    loader.username = username;
+
+    await loader.load();
 }

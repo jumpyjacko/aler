@@ -36,6 +36,13 @@ export async function addItem<T>(storeName: string, item: T) {
     });
 }
 
+export async function addItemIfNotExists<T extends { id: IDBValidKey }>(storeName: string, item: T) {
+    const existing = await getItem<T>(storeName, item.id);
+    if (existing !== undefined) return;
+
+    await addItem(storeName, item);
+}
+
 export async function getItem<T>(storeName: string, key: IDBValidKey): Promise<T | undefined> {
     const { store } = await getStore(storeName);
 
