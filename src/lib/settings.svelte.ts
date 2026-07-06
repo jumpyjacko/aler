@@ -48,7 +48,7 @@ export const exclusionSettings = $state<SettingItem[]>([
 ]);
 
 export let miscState = $state({
-    activeList: "animelist",
+    activeList: browser ? localStorage.getItem("activeList") ?? "animelist" : "animelist",
 });
 
 export let ratingRange = $state({
@@ -64,6 +64,7 @@ if (browser) {
             });
             localStorage.setItem("ratingRangeStart", String(ratingRange.start));
             localStorage.setItem("ratingRangeEnd", String(ratingRange.end));
+            localStorage.setItem("activeList", miscState.activeList);
         });
     });
 }
