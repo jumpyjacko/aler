@@ -31,9 +31,9 @@
         if (!seriesList) return new Array(10).fill(0);
         const counts = new Array(10).fill(0);
         for (const s of seriesList) {
-            const rating = s.userRating;
-            if (rating >= 1 && rating <= 10) {
-                counts[rating - 1]++;
+            const score = s.userScore;
+            if (score >= 1 && score <= 10) {
+                counts[score - 1]++;
             }
         }
         return counts;

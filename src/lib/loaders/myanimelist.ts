@@ -76,7 +76,7 @@ export class MALLoader implements Loader {
                         malId: +raw_series.manga_mangadb_id,
                         title: raw_series.manga_title,
                         userStatus: status,
-                        userRating: +raw_series.my_score,
+                        userScore: +raw_series.my_score,
                         readChapters: +raw_series.my_read_chapters,
 
                         mmrRating: 0,
@@ -96,7 +96,7 @@ export class MALLoader implements Loader {
                         malId: +raw_series.series_animedb_id,
                         title: raw_series.series_title,
                         userStatus: status,
-                        userRating: +raw_series.my_score,
+                        userScore: +raw_series.my_score,
                         mediaType: mediaType,
 
                         mmrRating: 0,
@@ -105,7 +105,7 @@ export class MALLoader implements Loader {
                     break;
             }
 
-            let initialRating = series.userRating === 0 ? 1350 : Math.round((series.userRating * 700 + 8300) / 9);
+            let initialRating = series.userScore === 0 ? 1350 : Math.round((series.userScore * 700 + 8300) / 9);
             series = {
                 ...series,
                 mmrRating: initialRating,
@@ -201,7 +201,7 @@ async function fillFromAnilist(seriesList: Series[], listType: SeriesType): Prom
                 ...series,
                 anilistId: bestMatch.id,
                 status: statusMap[bestMatch.status],
-                rating: bestMatch.meanScore ?? undefined,
+                score: bestMatch.meanScore ?? undefined,
                 coverImage: bestMatch.coverImage?.large ?? undefined,
                 id: bestMatch.id,
             }
@@ -212,7 +212,7 @@ async function fillFromAnilist(seriesList: Series[], listType: SeriesType): Prom
             ...series,
             anilistId: exactMatch.id,
             status: statusMap[exactMatch.status],
-            rating: exactMatch.meanScore ?? undefined,
+            score: exactMatch.meanScore ?? undefined,
             coverImage: exactMatch.coverImage?.large ?? undefined,
         };
     });

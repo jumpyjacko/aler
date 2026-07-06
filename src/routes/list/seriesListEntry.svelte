@@ -1,5 +1,5 @@
 <script lang="ts">
-    let { title, coverImage, status, rating, userStatus, userRating, mmrRating } =
+    let { title, coverImage, score, userStatus, userScore, mmrRating } =
         $props();
 </script>
 
@@ -22,8 +22,8 @@
         class="col-start-2 flex flex-col gap-0.5 md:contents text-left md:text-right text-sm text-text-dim dark:text-text-faded self-start md:self-center"
     >
         <div class="truncate">{userStatus}</div>
-        <div class="truncate">Global: {+rating / 10}</div>
-        <div class="truncate">Yours: {userRating}</div>
+        <div class="truncate">Global: {+score / 10}</div>
+        <div class="truncate">Yours: {userScore}</div>
         <div class="truncate">Rating: {mmrRating}</div>
     </div>
 </div>

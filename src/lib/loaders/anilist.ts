@@ -82,9 +82,9 @@ export class AniListLoader {
                 status: statusMap[series.media.status],
                 seriesType: seriesType,
                 title: series.media.title.userPreferred,
-                rating: series.media.meanScore,
+                score: series.media.meanScore,
                 coverImage: series.media.coverImage.large,
-                userRating: +series.score,
+                userScore: +series.score,
                 mediaType: mediaType,
 
                 mmrRating: initialRating,

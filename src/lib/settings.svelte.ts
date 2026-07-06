@@ -51,9 +51,9 @@ export let miscState = $state({
     activeList: browser ? localStorage.getItem("activeList") ?? "animelist" : "animelist",
 });
 
-export let ratingRange = $state({
-    start: browser ? Number(localStorage.getItem("ratingRangeStart") ?? 1) : 1,
-    end: browser ? Number(localStorage.getItem("ratingRangeEnd") ?? 11) : 11,
+export let scoreRange = $state({
+    start: browser ? Number(localStorage.getItem("scoreRangeStart") ?? 1) : 1,
+    end: browser ? Number(localStorage.getItem("scoreRangeEnd") ?? 11) : 11,
 });
 
 if (browser) {
@@ -62,8 +62,8 @@ if (browser) {
             exclusionSettings.forEach(setting => {
                 localStorage.setItem(setting.key, String(setting.checked));
             });
-            localStorage.setItem("ratingRangeStart", String(ratingRange.start));
-            localStorage.setItem("ratingRangeEnd", String(ratingRange.end));
+            localStorage.setItem("scoreRangeStart", String(scoreRange.start));
+            localStorage.setItem("scoreRangeEnd", String(scoreRange.end));
             localStorage.setItem("activeList", miscState.activeList);
         });
     });
