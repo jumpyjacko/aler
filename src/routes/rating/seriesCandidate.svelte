@@ -34,14 +34,14 @@
 
 <div
     class="
-        flex flex-row justify-center items-center w-full py-4 md:py-10
+        flex flex-row justify-center items-center w-full py-[1vh]
         md:flex-col md:items-center
     "
 >
     <img
         src={coverImage}
         alt={title}
-        class="rounded-md shadow-sm h-50 w-35 md:h-90 md:w-60 object-cover select-none"
+        class="rounded-md shadow-sm w-[30vw] h-[45vw] md:h-[50vh] md:w-[35vh] object-cover select-none"
         draggable="false"
     />
 
