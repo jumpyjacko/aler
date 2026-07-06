@@ -28,8 +28,8 @@
 
 {#if seriesList}
     <div class="flex flex-col w-full">
-        {#each seriesList as series}
-            <SeriesListEntry {...series} />
+        {#each seriesList as series, index}
+            <SeriesListEntry {...series} index={index} />
         {/each}
     </div>
 {/if}
