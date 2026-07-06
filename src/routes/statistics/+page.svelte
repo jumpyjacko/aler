@@ -12,6 +12,7 @@
         BarElement,
         Tooltip,
     } from "chart.js";
+    import { putItem } from "$lib/storage/IndexedDB";
     Chart.register(
         BarController,
         LinearScale,
@@ -151,6 +152,28 @@
             });
         });
     });
+
+    async function applyDistribution() {
+        if (!seriesList) return;
+
+        let workingList = $state.snapshot(seriesList).reverse();
+        let index = 0;
+        for (
+            let bucketIndex = 0;
+            bucketIndex < distribution.length;
+            bucketIndex++
+        ) {
+            const currentBucketSize = distribution[bucketIndex];
+
+            for (let i = 0; i < currentBucketSize; i++) {
+                if (index >= seriesList.length) return;
+
+                workingList[index].recommendedScore = bucketIndex + 1;
+                await putItem(miscState.activeList, workingList[index]);
+                index++;
+            }
+        }
+    }
 </script>
 
 <div class="flex flex-col md:flex-row justify-around">
@@ -186,6 +209,14 @@
             class="slider px-3 w-full"
         />
     </div>
+</div>
+
+<div class="flex w-full justify-center">
+    <button
+        onclick={applyDistribution}
+        class="px-4 py-2 rounded-full bg-primary text-primary-faded shadow-sm cursor-pointer transition-colors duration-100"
+        >Apply Distribution</button
+    >
 </div>
 
 <style>

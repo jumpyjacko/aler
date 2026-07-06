@@ -1,10 +1,17 @@
 <script lang="ts">
-    let { title, coverImage, score, userStatus, userScore, mmrRating } =
-        $props();
+    let {
+        title,
+        coverImage,
+        score,
+        userStatus,
+        userScore,
+        mmrRating,
+        recommendedScore,
+    } = $props();
 </script>
 
 <div
-    class="grid grid-cols-[5rem_1fr] md:grid-cols-[3rem_8fr_8rem_6rem_6rem_8rem] gap-x-4 gap-y-1 p-4 min-h-24 md:h-24 w-full items-center border-b border-text-faded"
+    class="grid grid-cols-[5rem_1fr] md:grid-cols-[3rem_8fr_8rem_6rem_7rem_7rem] gap-x-4 gap-y-1 p-4 min-h-24 md:h-24 w-full items-center border-b border-text-faded"
 >
     <img
         src={coverImage}
@@ -23,7 +30,11 @@
     >
         <div class="truncate">{userStatus}</div>
         <div class="truncate">Global: {+score / 10}</div>
-        <div class="truncate">Yours: {userScore}</div>
+        <div class="truncate">
+            Yours: {userScore} {#if recommendedScore}
+                <span title="Recommended Score">[{recommendedScore}]</span>
+            {/if}
+        </div>
         <div class="truncate">Rating: {mmrRating}</div>
     </div>
 </div>
