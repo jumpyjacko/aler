@@ -13,6 +13,8 @@
         Tooltip,
     } from "chart.js";
     import { putItem } from "$lib/storage/IndexedDB";
+    import { resolve } from "$app/paths";
+    import { goto } from "$app/navigation";
     Chart.register(
         BarController,
         LinearScale,
@@ -173,6 +175,8 @@
                 index++;
             }
         }
+
+        goto(resolve("/list"));
     }
 </script>
 
