@@ -45,7 +45,6 @@
         const proceed = confirm("This will delete your local anime list.");
         if (!proceed) return;
         await clearStore("animelist");
-        localStorage.clear();
         window.location.reload();
     }
 
@@ -53,7 +52,6 @@
         const proceed = confirm("This will delete your local manga list.");
         if (!proceed) return;
         await clearStore("mangalist");
-        localStorage.clear();
         window.location.reload();
     }
 
