@@ -27,7 +27,16 @@
             "This will delete all data. (Lists, Ratings, Settings)",
         );
         if (!proceed) return;
-        await wipeDatabase();
+
+        try {
+            await wipeDatabase();
+        } catch (error) {
+            console.error(
+                "Database wipe failed, but proceeding with reset:",
+                error,
+            );
+        }
+
         localStorage.clear();
         window.location.reload();
     }
@@ -70,9 +79,7 @@
     }
 </script>
 
-<div
-    class="flex flex-col items-center justify-center mt-[20vh] gap-4 mb-20"
->
+<div class="flex flex-col items-center justify-center mt-[20vh] gap-4 mb-20">
     <div class="mb-10">
         <h1 class="text-5xl text-text">Settings</h1>
         <p class="text-text-faded">alér | A pairwise media rating system.</p>
