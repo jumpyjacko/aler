@@ -163,7 +163,6 @@ export async function exportDatabase(): Promise<void> {
     for (const storeName of storeNames) {
         try {
             const store = await getAllItems<ExportedStoreItem>(storeName);
-            console.log(store);
             backup.data[storeName] = store;
         } catch {
             backup.data[storeName] = [];
