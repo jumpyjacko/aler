@@ -107,7 +107,7 @@
                     bind:value={username}
                     onfocus={() => (isInputFocused = true)}
                     onblur={() => (isInputFocused = false)}
-                    class="bg-surface border-t-0 border-x-0 border-text-faded w-48 pr-8"
+                    class="bg-surface border-t-0 border-x-0 border-text-faded w-48 pr-8 transition-colors duration-100"
                     placeholder="AniList Username"
                 />
                 {#if isLoading}
