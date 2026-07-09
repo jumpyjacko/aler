@@ -2,7 +2,7 @@
     import DualSlider from "$lib/components/dualSlider.svelte";
     import Toggle from "$lib/components/toggle.svelte";
 
-    import { exclusionSettings, ratingRange } from "$lib/settings.svelte";
+    import { exclusionSettings, scoreRange } from "$lib/settings.svelte";
     import { formatBytes, getIndexedDBUsage } from "$lib/storage";
     import {
         clearStore,
@@ -87,16 +87,16 @@
         </div>
 
         <div class="flex flex-row justify-center gap-4 text-center w-full">
-            <p>{ratingRange.start}</p>
+            <p>{scoreRange.start}</p>
             -
-            <p>{ratingRange.end - 1}</p>
+            <p>{scoreRange.end - 1}</p>
         </div>
 
         <DualSlider
             min={1}
             max={11}
-            bind:start={ratingRange.start}
-            bind:end={ratingRange.end}
+            bind:start={scoreRange.start}
+            bind:end={scoreRange.end}
         />
     </div>
 

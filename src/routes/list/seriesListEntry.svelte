@@ -1,11 +1,23 @@
 <script lang="ts">
-    let { title, coverImage, status, rating, userStatus, userRating, mmrRating } =
-        $props();
+    let {
+        title,
+        coverImage,
+        score,
+        userStatus,
+        userScore,
+        mmrRating,
+        recommendedScore,
+        index,
+    } = $props();
 </script>
 
 <div
-    class="grid grid-cols-[5rem_1fr] md:grid-cols-[3rem_8fr_8rem_6rem_6rem_8rem] gap-x-4 gap-y-1 p-4 min-h-24 md:h-24 w-full items-center border-b border-text-faded"
+    class="grid grid-cols-[2rem_5rem_1fr] md:grid-cols-[2rem_3rem_8fr_8rem_6rem_7rem_7rem] gap-x-4 gap-y-1 p-4 min-h-24 md:h-24 w-full items-center border-b border-text-faded"
 >
+    <h1 class="row-span-2 text-sm">
+        #{index + 1}
+    </h1>
+
     <img
         src={coverImage}
         alt={title}
@@ -19,11 +31,16 @@
     </div>
 
     <div
-        class="col-start-2 flex flex-col gap-0.5 md:contents text-left md:text-right text-sm text-text-dim dark:text-text-faded self-start md:self-center"
+        class="col-start-3 flex flex-col gap-0.5 md:contents text-left md:text-right text-sm text-text-dim dark:text-text-faded self-start md:self-center"
     >
         <div class="truncate">{userStatus}</div>
-        <div class="truncate">Global: {+rating / 10}</div>
-        <div class="truncate">Yours: {userRating}</div>
+        <div class="truncate">Global: {+score / 10}</div>
+        <div class="truncate">
+            Yours: {userScore}
+            {#if recommendedScore}
+                <span title="Recommended Score">-> {recommendedScore}</span>
+            {/if}
+        </div>
         <div class="truncate">Rating: {mmrRating}</div>
     </div>
 </div>

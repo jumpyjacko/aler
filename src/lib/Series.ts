@@ -37,11 +37,13 @@ export interface Series extends Candidate {
 
     title: string,
     status?: SeriesStatus,
-    rating?: number,
+    score?: number,
     coverImage?: string,
     mediaType?: MediaType,
 
     userStatus: UserStatus,
-    userRating: number,
+    userScore: number,
     readChapters?: number,
+
+    recommendedScore?: number,
 }

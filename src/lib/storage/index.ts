@@ -1,5 +1,5 @@
 import { MediaType, UserStatus, type Series } from "$lib/Series";
-import { miscState, ratingRange } from "$lib/settings.svelte";
+import { miscState, scoreRange } from "$lib/settings.svelte";
 import { getAllItems } from "./IndexedDB";
 
 export async function getFilteredList(): Promise<Series[]> {
@@ -30,7 +30,7 @@ export async function getFilteredList(): Promise<Series[]> {
                 return false;
             }
 
-            if (s.userRating < ratingRange.start || s.userRating >= ratingRange.end) {
+            if (s.userScore < scoreRange.start || s.userScore >= scoreRange.end) {
                 return false;
             }
 
