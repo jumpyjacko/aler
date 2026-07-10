@@ -1,9 +1,15 @@
 <script lang="ts">
     import type { Series } from "$lib/Series";
-    import { getFilteredList } from "$lib/storage";
+    import { getAllItems } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
+    import SectionListInfo from "./section_ListInfo.svelte";
 
-    let animeList: Series[] | null = $state(null);
+    let animelist: Series[] | null = $state(null);
+    let mangalist: Series[] | null = $state(null);
+
+    let stats_matches: number = $state(0);
+    let stats_draws: number = $state(0);
+
     let loading: boolean = $state(true);
 
     onMount(async () => {
@@ -12,7 +18,11 @@
 
     async function fetchData() {
         try {
-            animeList = await getFilteredList();
+            animelist = await getAllItems("animelist");
+            mangalist = await getAllItems("mangalist");
+
+            stats_matches = parseInt(localStorage.getItem("stats_matches") || "0", 10);
+            stats_draws = parseInt(localStorage.getItem("stats_draws") || "0", 10);
         } catch (error) {
             console.error("Failed to fetch items:", error);
         } finally {
@@ -27,20 +37,20 @@
         <div class="flex flex-col p-4">
             <div class="text-2xl">
                 <h3 class="text-text-faded text-lg">total matches</h3>
-                {parseInt(localStorage.getItem("stats_matches") || "0", 10) +
-                    parseInt(localStorage.getItem("stats_draws") || "0", 10)}
+                {stats_matches + stats_draws}
             </div>
             <div class="text-2xl">
                 <h3 class="text-text-faded text-lg">decisions</h3>
-                {localStorage.getItem("stats_matches") ?? 0}
+                {stats_matches}
             </div>
             <div class="text-2xl">
                 <h3 class="text-text-faded text-lg">draws</h3>
-                {localStorage.getItem("stats_draws") ?? 0}
+                {stats_draws}
             </div>
         </div>
-        <div class="flex flex-col p-4">
-            <div></div>
-        </div>
+        <SectionListInfo
+            animelistCount={animelist?.length}
+            mangalistCount={mangalist?.length}
+        />
     </div>
 </div>
