@@ -43,6 +43,13 @@
 
         seriesList = await getFilteredList();
         [series1, series2] = pickTwo(seriesList!);
+        
+        try {
+            let count = localStorage.getItem("stats_matches");
+            localStorage.setItem("stats_matches", String(+count! + 1));
+        } catch {
+            localStorage.setItem("stats_matches", "1");
+        }
     }
 
     async function handleDraw(): Promise<void> {
@@ -56,6 +63,13 @@
 
         seriesList = await getFilteredList();
         [series1, series2] = pickTwo(seriesList!);
+        
+        try {
+            let count = localStorage.getItem("stats_draws");
+            localStorage.setItem("stats_draws", String(+count! + 1));
+        } catch {
+            localStorage.setItem("stats_draws", "1");
+        }
     }
 
     function handleSkip(): void {
