@@ -59,7 +59,10 @@
         chart = new Chart(canvasRef, {
             type: "bar",
             data: {
-                labels: anime_dataset.labels,
+                labels:
+                    anime_dataset.data.length > manga_dataset.data.length
+                        ? anime_dataset.labels
+                        : manga_dataset.labels,
                 datasets: [
                     {
                         label: "anime",
