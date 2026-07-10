@@ -81,7 +81,7 @@
                 maintainAspectRatio: false,
                 scales: { x: { stacked: true }, y: { stacked: true } },
                 plugins: {
-                    legend: { display: true, position: "right" },
+                    legend: { display: true, position: 'bottom' },
                 },
             },
         });
@@ -93,7 +93,7 @@
 </script>
 
 <div class="flex flex-col">
-    <h2 class="text-xl text-text-faded text-center">Rating Distribution</h2>
+    <h2 class="text-xl text-text-faded text-center">rating distribution</h2>
     <div class="relative h-80 mx-8">
         <canvas bind:this={canvasRef}></canvas>
     </div>

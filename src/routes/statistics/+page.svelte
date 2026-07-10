@@ -47,12 +47,12 @@
                     <h3 class="text-text-faded text-lg">total matches</h3>
                     {stats_matches + stats_draws}
                 </div>
-                <div class="text-2xl">
-                    <h3 class="text-text-faded text-lg">decisions</h3>
+                <div class="text-lg">
+                    <h3 class="text-text-faded text-md">decisions</h3>
                     {stats_matches}
                 </div>
-                <div class="text-2xl">
-                    <h3 class="text-text-faded text-lg">draws</h3>
+                <div class="text-lg">
+                    <h3 class="text-text-faded text-md">draws</h3>
                     {stats_draws}
                 </div>
             </div>
