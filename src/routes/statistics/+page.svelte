@@ -3,6 +3,7 @@
     import { getAllItems } from "$lib/storage/IndexedDB";
     import { onMount } from "svelte";
     import SectionListInfo from "./section_ListInfo.svelte";
+    import SectionRatingDistribution from "./section_RatingDistribution.svelte";
 
     let animelist: Series[] | null = $state(null);
     let mangalist: Series[] | null = $state(null);
@@ -21,8 +22,14 @@
             animelist = await getAllItems("animelist");
             mangalist = await getAllItems("mangalist");
 
-            stats_matches = parseInt(localStorage.getItem("stats_matches") || "0", 10);
-            stats_draws = parseInt(localStorage.getItem("stats_draws") || "0", 10);
+            stats_matches = parseInt(
+                localStorage.getItem("stats_matches") || "0",
+                10,
+            );
+            stats_draws = parseInt(
+                localStorage.getItem("stats_draws") || "0",
+                10,
+            );
         } catch (error) {
             console.error("Failed to fetch items:", error);
         } finally {
@@ -32,25 +39,30 @@
 </script>
 
 <div class="m-2">
-    <div class="flex flex-row divide-x divide-text-faded">
-        <!-- Match Stats -->
-        <div class="flex flex-col p-4">
-            <div class="text-2xl">
-                <h3 class="text-text-faded text-lg">total matches</h3>
-                {stats_matches + stats_draws}
+    <div class="flex flex-col">
+        <div class="flex flex-row divide-x divide-text-faded">
+            <!-- Match Stats -->
+            <div class="flex flex-col p-4">
+                <div class="text-2xl">
+                    <h3 class="text-text-faded text-lg">total matches</h3>
+                    {stats_matches + stats_draws}
+                </div>
+                <div class="text-2xl">
+                    <h3 class="text-text-faded text-lg">decisions</h3>
+                    {stats_matches}
+                </div>
+                <div class="text-2xl">
+                    <h3 class="text-text-faded text-lg">draws</h3>
+                    {stats_draws}
+                </div>
             </div>
-            <div class="text-2xl">
-                <h3 class="text-text-faded text-lg">decisions</h3>
-                {stats_matches}
-            </div>
-            <div class="text-2xl">
-                <h3 class="text-text-faded text-lg">draws</h3>
-                {stats_draws}
-            </div>
+
+            <SectionListInfo
+                animelistCount={animelist?.length}
+                mangalistCount={mangalist?.length}
+            />
         </div>
-        <SectionListInfo
-            animelistCount={animelist?.length}
-            mangalistCount={mangalist?.length}
-        />
+
+        <SectionRatingDistribution bind:animelist bind:mangalist />
     </div>
 </div>
