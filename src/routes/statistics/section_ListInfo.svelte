@@ -40,8 +40,8 @@
     });
 </script>
 
-<div class="flex flex-row align-middle items-center gap-8">
-    <div class="flex flex-col p-4 flex-1">
+<div class="flex flex-row items-center h-full gap-8">
+    <div class="flex flex-col flex-1">
         <div class="text-2xl">
             <h3 class="text-text-faded text-lg">anime list entries</h3>
             {animelistCount}
