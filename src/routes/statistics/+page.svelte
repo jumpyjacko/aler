@@ -40,7 +40,7 @@
 
 <div class="m-2">
     <div class="flex flex-col">
-        <div class="flex flex-row divide-x divide-text-faded">
+        <div class="flex flex-row w-full">
             <!-- Match Stats -->
             <div class="flex flex-col p-4">
                 <div class="text-2xl">
@@ -57,12 +57,14 @@
                 </div>
             </div>
 
+            <!-- List Info -->
             <SectionListInfo
                 animelistCount={animelist?.length}
                 mangalistCount={mangalist?.length}
             />
         </div>
 
+        <!-- Rating Distribution -->
         <SectionRatingDistribution bind:animelist bind:mangalist />
     </div>
 </div>

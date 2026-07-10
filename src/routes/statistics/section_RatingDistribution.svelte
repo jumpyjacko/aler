@@ -23,7 +23,7 @@
     function buildBuckets(list: Series[] | null) {
         const empty = { labels: [] as string[], data: [] as number[] };
         if (!list) return empty;
-        const step = 200;
+        const step = 100;
         const max = Math.max(...list.map((s) => s.mmrRating), 0);
         const count = Math.ceil((max + 1) / step);
         const data = new Array(count).fill(0);
@@ -31,12 +31,17 @@
             const i = Math.floor(s.mmrRating / step);
             if (i >= 0 && i < count) data[i]++;
         }
-        const labels = Array.from({ length: count }, (_, i) => {
-            const start = i * step;
+
+        const first = data.findIndex((v) => v > 0);
+        if (first === -1) return empty;
+
+        const trimmed = data.slice(first);
+        const labels = Array.from({ length: trimmed.length }, (_, i) => {
+            const start = (first + i) * step;
             const end = start + step;
-            return `${start}-${end}`;
+            return `${start} - ${end}`;
         });
-        return { data, labels };
+        return { data: trimmed, labels };
     }
 
     let anime_dataset = $derived.by(() => buildBuckets(animelist));
@@ -57,12 +62,12 @@
                 labels: anime_dataset.labels,
                 datasets: [
                     {
-                        label: "Anime",
+                        label: "anime",
                         data: anime_dataset.data,
                         backgroundColor: "#3b87ca",
                     },
                     {
-                        label: "Manga",
+                        label: "manga",
                         data: manga_dataset.data,
                         backgroundColor: "#ca506e",
                     },
@@ -73,7 +78,7 @@
                 maintainAspectRatio: false,
                 scales: { x: { stacked: true }, y: { stacked: true } },
                 plugins: {
-                    legend: { display: true, position: 'right'},
+                    legend: { display: true, position: "right" },
                 },
             },
         });
@@ -84,6 +89,9 @@
     });
 </script>
 
-<div class="relative h-80 mx-8">
-    <canvas bind:this={canvasRef}></canvas>
+<div class="flex flex-col">
+    <h2 class="text-xl text-text-faded text-center">Rating Distribution</h2>
+    <div class="relative h-80 mx-8">
+        <canvas bind:this={canvasRef}></canvas>
+    </div>
 </div>
