@@ -28,6 +28,9 @@
             },
             options: {
                 responsive: true,
+                plugins: {
+                    legend: { display: false },
+                },
             },
         });
 
@@ -39,12 +42,12 @@
 
 <div class="flex flex-row align-middle items-center gap-8">
     <div class="flex flex-col p-4 flex-1">
-        <div class="text-4xl">
-            <h3 class="text-text-faded text-xl">anime list entries</h3>
+        <div class="text-2xl">
+            <h3 class="text-text-faded text-lg">anime list entries</h3>
             {animelistCount}
         </div>
-        <div class="text-4xl">
-            <h3 class="text-text-faded text-xl">manga list entries</h3>
+        <div class="text-2xl">
+            <h3 class="text-text-faded text-lg">manga list entries</h3>
             {mangalistCount}
         </div>
     </div>
