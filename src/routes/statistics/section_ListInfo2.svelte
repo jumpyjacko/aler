@@ -71,7 +71,7 @@
             <div class="flex items-center justify-between text-lg">
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full" style:background={statusColors[label]}></span>
-                    <span class="text-text-faded">{label}</span>
+                    <span class="text-text-faded">{label.toLocaleLowerCase()}</span>
                 </div>
                 <span>{dataset?.[i] ?? 0}</span>
             </div>
