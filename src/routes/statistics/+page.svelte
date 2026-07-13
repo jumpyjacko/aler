@@ -60,7 +60,7 @@
 <div class="m-2">
     <div class="flex flex-col gap-4">
         <div
-            class="flex flex-col w-full gap-4 md:flex-row md:justify-around md:gap-8"
+            class="flex flex-col w-full gap-4 lg:flex-row lg:justify-around lg:gap-8"
         >
             <!-- Match Stats -->
             <div class="flex flex-col p-4 flex-1">
@@ -79,7 +79,7 @@
             </div>
 
             <div
-                class="hidden md:inline h-32 w-px bg-text-faded self-center"
+                class="hidden lg:inline h-32 w-px bg-text-faded self-center"
             ></div>
 
             <!-- List Info -->
@@ -93,7 +93,7 @@
             </div>
 
             <div
-                class="hidden md:inline h-32 w-px bg-text-faded self-center"
+                class="hidden lg:inline h-32 w-px bg-text-faded self-center"
             ></div>
 
             <!-- List Info -->
@@ -106,7 +106,7 @@
             </div>
 
             <div
-                class="hidden md:inline h-32 w-px bg-text-faded self-center"
+                class="hidden lg:inline h-32 w-px bg-text-faded self-center"
             ></div>
 
             <!-- Filter Info -->

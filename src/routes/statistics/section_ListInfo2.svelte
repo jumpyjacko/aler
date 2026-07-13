@@ -64,7 +64,7 @@
     });
 </script>
 
-<div class="flex flex-row md:flex-row-reverse items-center h-full gap-8">
+<div class="flex flex-row lg:flex-row-reverse items-center h-full gap-8">
     <div class="flex flex-col flex-1 gap-1">
         {#each labels as label, i}
             {#if dataset?.[i] ?? 0 !== 0}
@@ -78,7 +78,7 @@
             {/if}
         {/each}
     </div>
-    <div class="relative w-40 h-40">
+    <div class="relative w-30 h-30 md:w-40 md:h-40">
         <canvas bind:this={canvasRef}></canvas>
     </div>
 </div>

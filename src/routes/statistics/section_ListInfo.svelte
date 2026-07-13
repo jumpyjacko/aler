@@ -58,7 +58,7 @@
             {mangalistCount}
         </div>
     </div>
-    <div class="relative w-40 h-40">
+    <div class="relative w-30 h-30 md:w-40 md:h-40">
         <canvas bind:this={canvasRef}></canvas>
     </div>
 </div>
