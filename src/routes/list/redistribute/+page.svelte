@@ -15,6 +15,7 @@
     import { putItem } from "$lib/storage/IndexedDB";
     import { resolve } from "$app/paths";
     import { goto } from "$app/navigation";
+    import { Palette } from "$lib/palette";
     Chart.register(
         BarController,
         LinearScale,
@@ -56,9 +57,6 @@
 
             const ddData = $state.snapshot(distribution);
             const cdData = currentDistribution;
-            const color = getComputedStyle(document.documentElement)
-                .getPropertyValue("--color-primary")
-                .trim();
 
             cdChart = new Chart(currentDistRef, {
                 type: "bar",
@@ -68,7 +66,7 @@
                         {
                             label: "Items",
                             data: cdData,
-                            backgroundColor: color,
+                            backgroundColor: Palette.BLUE,
                         },
                     ],
                 },
@@ -88,7 +86,7 @@
                         {
                             label: "Items",
                             data: ddData,
-                            backgroundColor: color,
+                            backgroundColor: Palette.BLUE,
                         },
                     ],
                 },
