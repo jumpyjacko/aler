@@ -31,6 +31,10 @@ export async function getFilteredList(): Promise<Series[]> {
             }
 
             if (s.userScore < scoreRange.start || s.userScore >= scoreRange.end) {
+                // exclusion for including unrated entries when the range is the full range
+                if (scoreRange.start === 1 && scoreRange.end === 11 && s.userScore === 0) {
+                    return true;
+                }
                 return false;
             }
 
