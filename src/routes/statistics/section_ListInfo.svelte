@@ -19,7 +19,7 @@
                 labels: ["anime", "manga"],
                 datasets: [
                     {
-                        label: "Items",
+                        label: "entries",
                         data: [animelistCount, mangalistCount],
                         backgroundColor: ["#3b87ca", "#ca506e"],
                         borderWidth: 0,
