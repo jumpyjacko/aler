@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Palette } from "$lib/palette";
     import type { Series } from "$lib/Series";
     import {
         Chart,
@@ -67,12 +68,12 @@
                     {
                         label: "anime",
                         data: anime_dataset.data,
-                        backgroundColor: "#3b87ca",
+                        backgroundColor: Palette.BLUE,
                     },
                     {
                         label: "manga",
                         data: manga_dataset.data,
-                        backgroundColor: "#ca506e",
+                        backgroundColor: Palette.RED,
                     },
                 ],
             },

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Palette } from "$lib/palette";
     import { Chart, DoughnutController, Tooltip, ArcElement } from "chart.js";
     Chart.register(DoughnutController, Tooltip, ArcElement);
 
@@ -21,7 +22,7 @@
                     {
                         label: "entries",
                         data: [animelistCount, mangalistCount],
-                        backgroundColor: ["#3b87ca", "#ca506e"],
+                        backgroundColor: [Palette.BLUE, Palette.RED],
                         borderWidth: 0,
                     },
                 ],
