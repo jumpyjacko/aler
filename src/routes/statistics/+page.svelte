@@ -6,10 +6,18 @@
     import SectionRatingDistribution from "./section_RatingDistribution.svelte";
     import { getFilteredList } from "$lib/storage";
     import { miscState } from "$lib/settings.svelte";
+    import SectionListInfo2 from "./section_ListInfo2.svelte";
 
     let animelist: Series[] | null = $state(null);
     let mangalist: Series[] | null = $state(null);
     let filteredlist: Series[] | null = $state(null);
+    let activelist: Series[] | null = $derived.by(() => {
+        if (miscState.activeList === "animelist") {
+            return animelist;
+        } else {
+            return mangalist;
+        }
+    })
 
     let stats_matches: number = $state(0);
     let stats_draws: number = $state(0);
@@ -75,7 +83,6 @@
             ></div>
 
             <!-- List Info -->
-
             <div
                 class="px-4 flex-2"
             >
@@ -89,6 +96,20 @@
                 class="hidden md:inline h-32 w-px bg-text-faded self-center"
             ></div>
 
+            <!-- List Info -->
+            <div
+                class="px-4 flex-2"
+            >
+                <SectionListInfo2
+                    bind:list={activelist}
+                />
+            </div>
+
+            <div
+                class="hidden md:inline h-32 w-px bg-text-faded self-center"
+            ></div>
+
+            <!-- Filter Info -->
             <div class="flex flex-col justify-center p-4 flex-1">
                 <div class="text-2xl">
                     <h3 class="text-text-faded text-lg">currently filtering</h3>
